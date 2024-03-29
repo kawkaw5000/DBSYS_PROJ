@@ -10,14 +10,14 @@
         <EntityTypeShape EntityType="dbMyOnlineShoppingModel.Tbl_Category" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
         <EntityTypeShape EntityType="dbMyOnlineShoppingModel.Tbl_MemberRole" Width="1.5" PointX="8" PointY="4.875" IsExpanded="true" />
         <EntityTypeShape EntityType="dbMyOnlineShoppingModel.Tbl_Members" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbMyOnlineShoppingModel.Tbl_Product" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="dbMyOnlineShoppingModel.Tbl_Roles" Width="1.5" PointX="5.75" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="dbMyOnlineShoppingModel.Tbl_ShippingDetails" Width="1.5" PointX="3" PointY="6" IsExpanded="true" />
         <EntityTypeShape EntityType="dbMyOnlineShoppingModel.Tbl_SlideImage" Width="1.5" PointX="5.75" PointY="7.75" IsExpanded="true" />
-        <AssociationConnector Association="dbMyOnlineShoppingModel.FK__Tbl_Cart__Produc__25869641" ManuallyRouted="false" />
-        <AssociationConnector Association="dbMyOnlineShoppingModel.FK__Tbl_Produ__Categ__145C0A3F" ManuallyRouted="false" />
         <AssociationConnector Association="dbMyOnlineShoppingModel.FK__Tbl_Membe__RoleI__22AA2996" ManuallyRouted="false" />
         <AssociationConnector Association="dbMyOnlineShoppingModel.FK__Tbl_Shipp__Membe__1CF15040" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="dbMyOnlineShoppingModel.Tbl_Product" Width="1.5" PointX="3" PointY="1" />
+        <AssociationConnector Association="dbMyOnlineShoppingModel.FK__Tbl_Cart__Produc__25869641" />
+        <AssociationConnector Association="dbMyOnlineShoppingModel.FK__Tbl_Produ__Categ__145C0A3F" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

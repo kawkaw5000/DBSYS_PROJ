@@ -58,7 +58,6 @@
     <Property Name="IsDelete" Type="bit" />
     <Property Name="CreatedDate" Type="datetime" />
     <Property Name="ModifiedDate" Type="datetime" />
-    <Property Name="Description" Type="datetime" />
     <Property Name="ProductImage" Type="varchar(max)" />
     <Property Name="IsFeatured" Type="bit" />
     <Property Name="Quantity" Type="int" />

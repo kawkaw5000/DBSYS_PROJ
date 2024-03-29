@@ -80,3 +80,7 @@ c:\users\lex\documents\visual studio 2015\Projects\EcommerceShop\EcommerceShop\b
 c:\users\lex\documents\visual studio 2015\Projects\EcommerceShop\EcommerceShop\obj\Debug\EcommerceShop.csprojResolveAssemblyReference.cache
 c:\users\lex\documents\visual studio 2015\Projects\EcommerceShop\EcommerceShop\obj\Debug\EcommerceShop.dll
 c:\users\lex\documents\visual studio 2015\Projects\EcommerceShop\EcommerceShop\obj\Debug\EcommerceShop.pdb
+C:\Users\LEX\documents\visual studio 2015\Projects\EcommerceShop\EcommerceShop\bin\PagedList.dll
+C:\Users\LEX\documents\visual studio 2015\Projects\EcommerceShop\EcommerceShop\bin\PagedList.Mvc.dll
+C:\Users\LEX\documents\visual studio 2015\Projects\EcommerceShop\EcommerceShop\bin\PagedList.xml
+C:\Users\LEX\documents\visual studio 2015\Projects\EcommerceShop\EcommerceShop\bin\PagedList.Mvc.xml

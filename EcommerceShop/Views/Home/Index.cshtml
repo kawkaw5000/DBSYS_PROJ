@@ -1,4 +1,7 @@
-﻿@{
+﻿@model EcommerceShop.Models.Home.HomeIndexViewModel
+@using PagedList;
+@using PagedList.Mvc;
+@{
     ViewBag.Title = "Home Page";
 }
 <link href="~/Content/MyMainLayOut.css" rel="stylesheet" />
@@ -43,15 +46,19 @@
     
 </div>
 <div class="olContent f1"><h2 style="color:black">Search Product/Category</h2></div>
-<div class="olSearch fr">
-    <input type="text" placeholder="Enter Keyword" name="searchKey" class="inputComn houseText form-control"/>
-    <div class="searchIcon">
-        <button type="button" class="searchBtn">
 
-            <img src="~/Images/pngegg.png" />
-        </button>
+<form method="post">
+    <div class="olSearch fr">
+        <input type="text" name="search" placeholder="Enter Keyword" class="inputComn houseText form-control" />
+        <div class="searchIcon">
+            <button type="button" name="search" class="searchBtn">
+                <img src="~/Images/pngegg.png" />
+            </button>
+        </div>
     </div>
-</div>
+</form>
+
+
 
 <div class="row">
     <div class="col-md-12">
@@ -62,19 +69,44 @@
 </div>
 
 <div class="row product-container">
-    <div class="col-md-3 col-sm-3 col-xs-6" style="margin-bottom:8px">
-        <div class="thumbnail product-item" style="height:300px">
-            <img class="img-res" title="Click to View Product detail"
-                 style="cursor:pointer;height:160px;width:140px"
-                src="~/Images/a79-5g-427_600-green.jpg"/>
+    @foreach (var item in Model.ListOfProducts)
+    {
+        <div class="col-md-3 col-sm-3 col-xs-6" style="margin-bottom:8px">
+            <div class="thumbnail product-item" style="height:300px">
+                <img class="img-res" title="Click to View Product detail"
+                     style="cursor:pointer;height:160px;width:140px"
+                     src="~/ProductImg/@item.ProductImage"/>
 
-            <div class="caption">
-                <h5>OppoKalabasa</h5>
-                <p>PHP9999.99</p>
-                <p>Available</p>
-                <div class="product-item-badge">New</div>
+                <div class="caption">
+                    <h5>@item.ProductName</h5>
+                    <p>PHP<text>@String.Format("{0:N0}", @item.Price)</text></p>
+                    <p>
+                        @if(item.Quantity > 0)
+                        {
+                        
+                            <p>Available x<text>@item.Quantity</text></p>
+                        }
+                        else
+                        {
+                            <p>Not Available</p>
+                        }
+                    </p>
+                    <div class="product-item-badge">
+  
+                        @if (item.IsFeatured == true)
+                        {
+                            <p>New</p>
+                        }
+                        else
+                        {
+                            <p>Old</p>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
-
-    </div>
+    }
+</div>
+<div class="">
+    @Html.PagedListPager(Model.ListOfProducts, page => Url.Action("Index", new { page, search = Request.QueryString["search"] }), new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded, DisplayItemSliceAndTotal = true })
 </div>
