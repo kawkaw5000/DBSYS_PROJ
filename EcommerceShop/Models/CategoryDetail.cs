@@ -16,6 +16,20 @@ namespace EcommerceShop.Models
         public Nullable<bool> IsActive { get; set; }
         public Nullable<bool> IsDelete { get; set; }
     }
+    public class MemberDetail
+    {
+        public int MemberId { get; set; }
+        [Required(ErrorMessage = "Category Name Required")]
+        [StringLength(100, ErrorMessage = "Minimum 3 and minimum 5 and maximum 100 characters are allowed", MinimumLength = 3)]
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string EmialId { get; set; }
+        public string Password { get; set; }
+        public Nullable<bool> IsActive { get; set; }
+        public Nullable<bool> IsDelete { get; set; }
+        public Nullable<System.DateTime> CreatedOn { get; set; }
+        public Nullable<System.DateTime> ModifiedOn { get; set; }
+    }
 
     public class ProductDetail
     {

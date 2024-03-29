@@ -6,10 +6,16 @@ using System.Web;
 
 namespace EcommerceShop.Repository
 {
+    public enum ErrorCode
+    {
+        Success,
+        Error
+    }
     public interface IRepository<Tbl_Entity> where Tbl_Entity:class
     {
+ 
         IEnumerable<Tbl_Entity> GetProduct();
-
+        IEnumerable<Tbl_Entity> GetMembers();
         IEnumerable<Tbl_Entity> GetAllRecords();
         IQueryable<Tbl_Entity> GetAllRecordsIQueryable();
         int GetAllrecordCount();

@@ -1,7 +1,7 @@
-﻿@model IEnumerable<EcommerceShop.DAL.Tbl_Product>
+﻿@model IEnumerable<EcommerceShop.DAL.Tbl_Members>
 
 @{
-    ViewBag.Title = "Product";
+    ViewBag.Title = "Members";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -19,7 +19,7 @@
                 <thead>
                     <tr>
                         <th>Sr. No.</th>
-                        <th>Product Name</th>
+                        <th>Members Name</th>
                         <th>Action</th>
 
                     </tr>
@@ -27,7 +27,7 @@
                 <tfoot>
                     <tr>
                         <th>Sr. No.</th>
-                        <th>Product Name</th>
+                        <th>Members Name</th>
                         <th>Action</th>
                     </tr>
                 </tfoot>
@@ -37,10 +37,10 @@
                         int count = 1;
                         <tr>
                             <td>@count</td>
-                            <td>@item.ProductName</td>
+                            <td>@item.EmailId</td>
                             <td>
-                          
-                                @Html.ActionLink("Edit", "ProductEdit", new { productId = item.ProductId })
+
+                                @Html.ActionLink("Edit", "MembersEdit", new { memberId = item.MemberId })
                             </td>
 
 

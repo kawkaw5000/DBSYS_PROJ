@@ -92,6 +92,14 @@
     <Property Name="SlideTitle" Type="varchar" MaxLength="500" />
     <Property Name="SlideImage" Type="varchar(max)" />
   </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="username" Type="nvarchar" MaxLength="250" />
+    <Property Name="password" Type="nvarchar" MaxLength="250" />
+  </EntityType>
   <Association Name="FK__Tbl_Cart__Produc__25869641">
     <End Role="Tbl_Product" Type="Self.Tbl_Product" Multiplicity="0..1" />
     <End Role="Tbl_Cart" Type="Self.Tbl_Cart" Multiplicity="*" />
@@ -150,6 +158,7 @@
     <EntitySet Name="Tbl_Roles" EntityType="Self.Tbl_Roles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tbl_ShippingDetails" EntityType="Self.Tbl_ShippingDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tbl_SlideImage" EntityType="Self.Tbl_SlideImage" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK__Tbl_Cart__Produc__25869641" Association="Self.FK__Tbl_Cart__Produc__25869641">
       <End Role="Tbl_Product" EntitySet="Tbl_Product" />
       <End Role="Tbl_Cart" EntitySet="Tbl_Cart" />

@@ -28,7 +28,16 @@
             <div class="col-md-6 col-sm-6 col-xs-6">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">Cart<b class="caret"></b></a>
+                        @if (Session["cart"] != null)
+                        {
+                            int total = 0; // Declare total outside the loop
+                            foreach (var item in (List<Item>)Session["cart"])
+                            {
+                                total += item.Quantity; // Assuming Item has a Quantity property representing the number of items
+                            }
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">Cart @total <b class="caret"></b></a>
+                        }
+
                         <ul class="dropdown-menu">
                             @if (Session["cart"] != null)
                             {

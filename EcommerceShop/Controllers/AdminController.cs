@@ -10,11 +10,23 @@ using System.Web.Mvc;
 
 namespace EcommerceShop.Controllers
 {
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
         // GET: Admin
 
         public GenericUnitOfWork _unitOfWork = new GenericUnitOfWork();
+
+
+        public List<SelectListItem> GetMembers()
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            var mem = _unitOfWork.GetRepositoryInstance<Tbl_Members>().GetAllRecords();
+            foreach (var item in mem)
+            {
+                list.Add(new SelectListItem { Value = item.MemberId.ToString(), Text = item.EmailId });
+            }
+            return list;
+        }
 
         public List<SelectListItem> GetCategory()
         {
@@ -31,6 +43,25 @@ namespace EcommerceShop.Controllers
         {
             return View();
         }
+        public ActionResult Members()
+        {
+            return View(_unitOfWork.GetRepositoryInstance<Tbl_Members>().GetMembers());
+        }
+        public ActionResult MembersEdit(int memberId)
+        {
+           
+            ViewBag.MembersList = GetMembers();
+            return View(_unitOfWork.GetRepositoryInstance<Tbl_Members>().GetFirstorDefault(memberId));
+        }
+        [HttpPost]
+        public ActionResult MembersEdit(Tbl_Members tbl)
+        {
+
+            tbl.ModifiedOn = DateTime.Now;
+            _unitOfWork.GetRepositoryInstance<Tbl_Members>().Update(tbl);
+            return RedirectToAction("Members");
+        }
+
 
         public ActionResult Categories()
         {

@@ -122,5 +122,10 @@ namespace EcommerceShop.Repository
                 return _dbSet.OrderBy(orderByPredict).ToList();
             }
         }
+
+        public IEnumerable<Tbl_Entity> GetMembers()
+        {
+            return _dbSet.ToList();
+        }
     }
 }
