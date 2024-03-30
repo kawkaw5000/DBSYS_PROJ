@@ -1,5 +1,6 @@
 ﻿using EcommerceShop.DAL;
 using EcommerceShop.Models.Home;
+using EcommerceShop.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,15 +9,29 @@ using System.Web.Mvc;
 
 namespace EcommerceShop.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         dbMyOnlineShoppingEntities ctx = new dbMyOnlineShoppingEntities();
+       
 
         public ActionResult Index(string search, int? page)
         {
 
             HomeIndexViewModel model = new HomeIndexViewModel();
             return View(model.CreateModel(search, 4, page));
+        } 
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Create(Tbl_Members u)
+        {
+            u.IsActive = true;
+            u.CreatedOn = DateTime.Now;
+            _userRepo.Create(u);
+            return RedirectToAction("Index");
         }
 
         public ActionResult DecreaseQty(int productId)

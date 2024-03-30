@@ -100,6 +100,13 @@
     <Property Name="username" Type="nvarchar" MaxLength="250" />
     <Property Name="password" Type="nvarchar" MaxLength="250" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_UserRole">
+          <Property Name="MemberId" Type="int" />
+          <Property Name="EmailId" Type="varchar" MaxLength="500" />
+          <Property Name="RoleName" Type="varchar" MaxLength="500" />
+        </EntityType>-->
   <Association Name="FK__Tbl_Cart__Produc__25869641">
     <End Role="Tbl_Product" Type="Self.Tbl_Product" Multiplicity="0..1" />
     <End Role="Tbl_Cart" Type="Self.Tbl_Cart" Multiplicity="*" />
