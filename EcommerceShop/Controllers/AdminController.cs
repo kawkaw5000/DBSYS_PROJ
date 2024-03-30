@@ -43,6 +43,9 @@ namespace EcommerceShop.Controllers
         {
             return View();
         }
+
+
+        // ADMIN USER EDIT------------------------------------------------------------
         public ActionResult Members()
         {
             return View(_unitOfWork.GetRepositoryInstance<Tbl_Members>().GetMembers());
@@ -63,6 +66,8 @@ namespace EcommerceShop.Controllers
         }
 
 
+
+        // ADMIN CATEGORIES EDIT------------------------------------------------------------
         public ActionResult Categories()
         {
             List<Tbl_Category> AllCategories = _unitOfWork.GetRepositoryInstance<Tbl_Category>().GetAllRecordsIQueryable().Where(i => i.IsDelete == false).ToList();
@@ -71,22 +76,31 @@ namespace EcommerceShop.Controllers
 
         public ActionResult AddCategory()
         {
-            return UpdateCategory(0);
+            ViewBag.CategoryList = GetCategory();
+            return View();
+            ////return UpdateCategory(0);
+        }
+        [HttpPost]
+        public ActionResult AddCategory(Tbl_Category tbl)
+        {
+            _unitOfWork.GetRepositoryInstance<Tbl_Category>().Add(tbl);
+            return RedirectToAction("Categories");
+            ////return UpdateCategory(0);
         }
 
-        public ActionResult UpdateCategory(int categoryId)
-        {
-            CategoryDetail cd;
-            if(categoryId != null)
-            {
-                cd = JsonConvert.DeserializeObject<CategoryDetail>(JsonConvert.SerializeObject(_unitOfWork.GetRepositoryInstance<Tbl_Category>().GetFirstorDefault(categoryId)));
-            }
-            else
-            {
-                cd = new CategoryDetail();
-            }
-            return View("UpdateCategory", cd);
-        }
+        //public ActionResult UpdateCategory(int categoryId)
+        //{
+        //    CategoryDetail cd;
+        //    if(categoryId != null)
+        //    {
+        //        cd = JsonConvert.DeserializeObject<CategoryDetail>(JsonConvert.SerializeObject(_unitOfWork.GetRepositoryInstance<Tbl_Category>().GetFirstorDefault(categoryId)));
+        //    }
+        //    else
+        //    {
+        //        cd = new CategoryDetail();
+        //    }
+        //    return View("UpdateCategory", cd);
+        //}
         public ActionResult CategoryEdit(int catId)
         {
             return View(_unitOfWork.GetRepositoryInstance<Tbl_Category>().GetFirstorDefault(catId));
@@ -97,6 +111,9 @@ namespace EcommerceShop.Controllers
             _unitOfWork.GetRepositoryInstance<Tbl_Category>().Update(tbl);
             return RedirectToAction("Categories");
         }
+
+
+        // ADMIN PRODUCT EDIT------------------------------------------------------------
         public ActionResult Product()
         {
             return View(_unitOfWork.GetRepositoryInstance<Tbl_Product>().GetProduct());

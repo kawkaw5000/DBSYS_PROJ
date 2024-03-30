@@ -19,10 +19,6 @@ namespace EcommerceShop.Controllers
             return View(model.CreateModel(search, 4, page));
         }
 
-        public ActionResult UserCreate()
-        {
-            return View();
-        }
         public ActionResult DecreaseQty(int productId)
         {
             if (Session["cart"] != null)
