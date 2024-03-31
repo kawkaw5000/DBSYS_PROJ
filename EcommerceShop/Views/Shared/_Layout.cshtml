@@ -35,6 +35,8 @@
                     else
                     {
                         <li><a href="@Url.Action("Login", "Home")">Login</a></li>
+                        <li><a href="@Url.Action("Create", "Home")">Create</a></li>
+
                     }
                 </ul>
                     @if (User.Identity.IsAuthenticated) { 
