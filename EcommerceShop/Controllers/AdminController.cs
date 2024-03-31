@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace EcommerceShop.Controllers
 {
+    [AllowAnonymous]
     public class AdminController : BaseController
     {
         // GET: Admin

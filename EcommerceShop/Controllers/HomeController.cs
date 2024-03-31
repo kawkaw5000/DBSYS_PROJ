@@ -6,25 +6,65 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace EcommerceShop.Controllers
 {
     public class HomeController : BaseController
     {
         dbMyOnlineShoppingEntities ctx = new dbMyOnlineShoppingEntities();
-       
 
+
+        [AllowAnonymous]
         public ActionResult Index(string search, int? page)
         {
 
             HomeIndexViewModel model = new HomeIndexViewModel();
             return View(model.CreateModel(search, 4, page));
-        } 
+        }
+
+        [Authorize]
+        public ActionResult UserIndex(string search, int? page)
+        {
+
+            HomeIndexViewModel model = new HomeIndexViewModel();
+            return View(model.CreateModel(search, 4, page));
+        }
+
+        [AllowAnonymous]
+        public ActionResult Login()
+        {
+            if (User.Identity.IsAuthenticated)
+                return RedirectToAction("UserIndex");
+            return View();
+        }
+
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Login(Tbl_Members u)
+        {
+            var user = _userRepo.Table.Where(m => m.EmailId == u.EmailId).FirstOrDefault();
+            var pass = _userRepo.Table.Where(m => m.Password == u.Password).FirstOrDefault();
+            if (user != null && pass != null)
+            {
+                FormsAuthentication.SetAuthCookie(u.EmailId, false);
+                return RedirectToAction("UserIndex");
+            }
+            ModelState.AddModelError("", "Email does not Exist or Incorrect Password");
+
+            return View();
+        }
 
         public ActionResult Create()
         {
             return View();
         }
+       
         [HttpPost]
         public ActionResult Create(Tbl_Members u)
         {
@@ -34,6 +74,8 @@ namespace EcommerceShop.Controllers
             return RedirectToAction("Index");
         }
 
+
+        [Authorize]
         public ActionResult DecreaseQty(int productId)
         {
             if (Session["cart"] != null)
@@ -62,55 +104,7 @@ namespace EcommerceShop.Controllers
             return Redirect("Index");
         }
 
-        //public ActionResult AddToCart(int productId, string url)
-        //{
-        //    if (Session["cart"] == null)
-        //    {
-        //        List<Item> cart = new List<Item>();
-        //        var product = ctx.Tbl_Product.Find(productId);
-        //        cart.Add(new Item()
-        //        {
-        //            Product = product,
-        //            Quantity = 1
-        //        });
-        //        Session["cart"] = cart;
-        //    }
-        //    else
-        //    {
-        //        List<Item> cart = (List<Item>)Session["cart"];
-        //        var count = cart.Count();
-        //        var product = ctx.Tbl_Product.Find(productId);
-        //        for (int i = 0; i < count; i++)
-        //        {
-        //            if (cart[i].Product.ProductId == productId)
-        //            {
-        //                int prevQty = cart[i].Quantity;
-        //                cart.Remove(cart[i]);
-        //                cart.Add(new Item()
-        //                {
-        //                    Product = product,
-        //                    Quantity = prevQty + 1
-        //                });
-        //                break;
-        //            }
-        //            else
-        //            {
-        //                var prd = cart.Where(x => x.Product.ProductId == productId).SingleOrDefault();
-        //                if (prd == null)
-        //                {
-        //                    cart.Add(new Item()
-        //                    {
-        //                        Product = product,
-        //                        Quantity = 1
-        //                    });
-        //                }
-        //            }
-        //        }
-        //        Session["cart"] = cart;
-        //    }
-        //    return Redirect("Index");
-        //}
-
+        [Authorize]
         public ActionResult AddToCart(int productId, string url)
         {
             if (Session["cart"] == null)
@@ -148,7 +142,7 @@ namespace EcommerceShop.Controllers
             return RedirectToAction("Index");
         }
 
-
+        [Authorize]
         public ActionResult RemoveFromCart(int productId)
         {
             List<Item> cart = (List<Item>)Session["cart"];
@@ -170,20 +164,6 @@ namespace EcommerceShop.Controllers
             Session["cart"] = cart;
             return Redirect("Index");
         }
-
-        //public ActionResult RemoveFromCart(int productId)
-        //{
-        //    List<Item> cart = (List<Item>)Session["cart"];
-        //    foreach (var item in cart)
-        //    {
-        //        if (item.Product.ProductId == productId)
-        //        {
-        //            cart.Remove(item);
-        //            break;
-        //        }
-        //    }
-        //    Session["cart"] = cart;
-        //    return Redirect("Index");
-        //}
+        
     }
 }

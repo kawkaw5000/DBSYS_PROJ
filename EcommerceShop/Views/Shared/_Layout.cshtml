@@ -27,8 +27,17 @@
 
             <div class="col-md-6 col-sm-6 col-xs-6">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Login</a></li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a>Welcome, @User.Identity.Name!</a></li>
+                        <li><a href="~/Home/Logout">Logout</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="@Url.Action("Login", "Home")">Login</a></li>
+                    }
                 </ul>
+                    @if (User.Identity.IsAuthenticated) { 
                     <ul class="nav navbar-nav navbar-right">
                         
                         <li class="dropdown">
@@ -57,6 +66,7 @@
                             </ul>
                         </li>
                     </ul>
+                    }
 </div>
         </div>
         

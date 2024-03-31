@@ -13,6 +13,7 @@ namespace EcommerceShop.Repository
     {
         private DbContext _db;
         private DbSet<T> _table;
+        public IQueryable<T> Table => _table;
         public BaseRepository()
         {
             _db = new dbMyOnlineShoppingEntities();

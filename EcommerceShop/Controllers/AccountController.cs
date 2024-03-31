@@ -1,4 +1,5 @@
 ﻿using EcommerceShop.DAL;
+using EcommerceShop.Models.Home;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,11 @@ namespace EcommerceShop.Controllers
     public class AccountController : BaseController
     {
         // GET: Account
-        public ActionResult Index()
+        public ActionResult Index(string search, int? page)
         {
-            List<Tbl_Members> userList = _userRepo.GetAll();
-            return View(userList);
+
+            HomeIndexViewModel model = new HomeIndexViewModel();
+            return View(model.CreateModel(search, 4, page));
         }
 
         public ActionResult Create()
