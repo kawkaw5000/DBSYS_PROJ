@@ -28,9 +28,9 @@
   font-size: 14px;
   text-decoration: underline;
 }
-.login-form  .btn.btn-primary {
-  background: #f0ad4e none repeat scroll 0 0;
-  border-color: #f0ad4e;
+.login-form  .btn.btn-secondary {
+  background: #1e1e1e none repeat scroll 0 0;
+  border-color: #000000;
   color: #ffffff;
   font-size: 14px;
   width: 100%;

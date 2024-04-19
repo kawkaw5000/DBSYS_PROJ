@@ -48,8 +48,6 @@ namespace EcommerceShop.Controllers
         [HttpPost]
         public ActionResult Login(Tbl_Members u)
         {
-            //var user = _userRepo.Table.Where(m => m.EmailId == u.EmailId).FirstOrDefault();
-            //var pass = _userRepo.Table.Where(m => m.Password == u.Password).FirstOrDefault();
             var user = _userRepo.Table.FirstOrDefault(m => m.EmailId == u.EmailId && m.Password == u.Password);
             if (user != null)
             {
