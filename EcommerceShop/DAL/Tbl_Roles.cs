@@ -20,7 +20,7 @@ namespace EcommerceShop.DAL
             this.Tbl_MemberRole = new HashSet<Tbl_MemberRole>();
         }
     
-        public int RoleId { get; set; }
+        public int id { get; set; }
         public string RoleName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

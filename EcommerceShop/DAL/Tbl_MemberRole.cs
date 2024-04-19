@@ -14,7 +14,7 @@ namespace EcommerceShop.DAL
     
     public partial class Tbl_MemberRole
     {
-        public int MemberRoleID { get; set; }
+        public int id { get; set; }
         public Nullable<int> MemberId { get; set; }
         public Nullable<int> RoleId { get; set; }
     

@@ -12,6 +12,8 @@ namespace EcommerceShop.DAL
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class dbMyOnlineShoppingEntities : DbContext
     {
@@ -34,6 +36,15 @@ namespace EcommerceShop.DAL
         public virtual DbSet<Tbl_Roles> Tbl_Roles { get; set; }
         public virtual DbSet<Tbl_ShippingDetails> Tbl_ShippingDetails { get; set; }
         public virtual DbSet<Tbl_SlideImage> Tbl_SlideImage { get; set; }
-        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<vw_UserRole> vw_UserRole { get; set; }
+    
+        public virtual ObjectResult<GetBySearch_Result> GetBySearch(string search)
+        {
+            var searchParameter = search != null ?
+                new ObjectParameter("search", search) :
+                new ObjectParameter("search", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetBySearch_Result>("GetBySearch", searchParameter);
+        }
     }
 }

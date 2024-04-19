@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace EcommerceShop.Controllers
 {
-    [AllowAnonymous]
+    [Authorize(Roles = "Manager")]
     public class AdminController : BaseController
     {
         // GET: Admin
@@ -24,7 +24,7 @@ namespace EcommerceShop.Controllers
             var mem = _unitOfWork.GetRepositoryInstance<Tbl_Members>().GetAllRecords();
             foreach (var item in mem)
             {
-                list.Add(new SelectListItem { Value = item.MemberId.ToString(), Text = item.EmailId });
+                list.Add(new SelectListItem { Value = item.id.ToString(), Text = item.EmailId });
             }
             return list;
         }

@@ -20,7 +20,7 @@ namespace EcommerceShop.DAL
             this.Tbl_ShippingDetails = new HashSet<Tbl_ShippingDetails>();
         }
     
-        public int MemberId { get; set; }
+        public int id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string EmailId { get; set; }

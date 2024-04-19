@@ -23,7 +23,7 @@ namespace EcommerceShop.Controllers
             return View(model.CreateModel(search, 4, page));
         }
 
-        [Authorize]
+        [Authorize(Roles = "User, Manager")]
         public ActionResult UserIndex(string search, int? page)
         {
 
@@ -48,10 +48,23 @@ namespace EcommerceShop.Controllers
         [HttpPost]
         public ActionResult Login(Tbl_Members u)
         {
-            var user = _userRepo.Table.Where(m => m.EmailId == u.EmailId).FirstOrDefault();
-            var pass = _userRepo.Table.Where(m => m.Password == u.Password).FirstOrDefault();
-            if (user != null && pass != null)
+            //var user = _userRepo.Table.Where(m => m.EmailId == u.EmailId).FirstOrDefault();
+            //var pass = _userRepo.Table.Where(m => m.Password == u.Password).FirstOrDefault();
+            var user = _userRepo.Table.FirstOrDefault(m => m.EmailId == u.EmailId && m.Password == u.Password);
+            if (user != null)
             {
+                if (user.IsDelete == true)
+                {
+                    ModelState.AddModelError("", "Your account has set to isInactive wait for Admin Aproval.");
+                    return View();
+                }
+
+                if (!user.IsActive == true)
+                {
+                    ModelState.AddModelError("", "Your account is not active. Please contact support.");
+                    return View();
+                }
+
                 FormsAuthentication.SetAuthCookie(u.EmailId, false);
                 return RedirectToAction("UserIndex");
             }
@@ -68,14 +81,15 @@ namespace EcommerceShop.Controllers
         [HttpPost]
         public ActionResult Create(Tbl_Members u)
         {
-            u.IsActive = true;
+            u.IsActive = false;
+            u.IsDelete = true;
             u.CreatedOn = DateTime.Now;
             _userRepo.Create(u);
             return RedirectToAction("Index");
         }
 
 
-        [Authorize]
+        [Authorize(Roles = "User, Manager")]
         public ActionResult DecreaseQty(int productId)
         {
             if (Session["cart"] != null)
@@ -104,7 +118,7 @@ namespace EcommerceShop.Controllers
             return Redirect("Index");
         }
 
-        [Authorize]
+        [Authorize(Roles = "User, Manager")]
         public ActionResult AddToCart(int productId, string url)
         {
             if (Session["cart"] == null)
@@ -142,7 +156,7 @@ namespace EcommerceShop.Controllers
             return RedirectToAction("Index");
         }
 
-        [Authorize]
+        [Authorize(Roles = "User, Manager")]
         public ActionResult RemoveFromCart(int productId)
         {
             List<Item> cart = (List<Item>)Session["cart"];

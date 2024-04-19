@@ -12,10 +12,10 @@ namespace EcommerceShop.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class vw_UserRole
     {
         public int id { get; set; }
-        public string username { get; set; }
-        public string password { get; set; }
+        public string EmailId { get; set; }
+        public string RoleName { get; set; }
     }
 }

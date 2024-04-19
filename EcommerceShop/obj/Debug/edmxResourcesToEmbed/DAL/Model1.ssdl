@@ -27,17 +27,17 @@
   </EntityType>
   <EntityType Name="Tbl_MemberRole">
     <Key>
-      <PropertyRef Name="MemberRoleID" />
+      <PropertyRef Name="id" />
     </Key>
-    <Property Name="MemberRoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id" Type="int" Nullable="false" />
     <Property Name="MemberId" Type="int" />
     <Property Name="RoleId" Type="int" />
   </EntityType>
   <EntityType Name="Tbl_Members">
     <Key>
-      <PropertyRef Name="MemberId" />
+      <PropertyRef Name="id" />
     </Key>
-    <Property Name="MemberId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="FirstName" Type="varchar" MaxLength="500" />
     <Property Name="LastName" Type="varchar" MaxLength="500" />
     <Property Name="EmailId" Type="varchar" MaxLength="500" />
@@ -65,9 +65,9 @@
   </EntityType>
   <EntityType Name="Tbl_Roles">
     <Key>
-      <PropertyRef Name="RoleId" />
+      <PropertyRef Name="id" />
     </Key>
-    <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id" Type="int" Nullable="false" />
     <Property Name="RoleName" Type="varchar" MaxLength="500" />
   </EntityType>
   <EntityType Name="Tbl_ShippingDetails">
@@ -92,21 +92,16 @@
     <Property Name="SlideTitle" Type="varchar" MaxLength="500" />
     <Property Name="SlideImage" Type="varchar(max)" />
   </EntityType>
-  <EntityType Name="User">
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_UserRole">
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="username" Type="nvarchar" MaxLength="250" />
-    <Property Name="password" Type="nvarchar" MaxLength="250" />
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="EmailId" Type="varchar" MaxLength="500" />
+    <Property Name="RoleName" Type="varchar" MaxLength="500" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6013: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vw_UserRole">
-          <Property Name="MemberId" Type="int" />
-          <Property Name="EmailId" Type="varchar" MaxLength="500" />
-          <Property Name="RoleName" Type="varchar" MaxLength="500" />
-        </EntityType>-->
   <Association Name="FK__Tbl_Cart__Produc__25869641">
     <End Role="Tbl_Product" Type="Self.Tbl_Product" Multiplicity="0..1" />
     <End Role="Tbl_Cart" Type="Self.Tbl_Cart" Multiplicity="*" />
@@ -124,7 +119,7 @@ warning 6013: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have 
     <End Role="Tbl_MemberRole" Type="Self.Tbl_MemberRole" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Tbl_Roles">
-        <PropertyRef Name="RoleId" />
+        <PropertyRef Name="id" />
       </Principal>
       <Dependent Role="Tbl_MemberRole">
         <PropertyRef Name="RoleId" />
@@ -148,13 +143,16 @@ warning 6013: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have 
     <End Role="Tbl_ShippingDetails" Type="Self.Tbl_ShippingDetails" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Tbl_Members">
-        <PropertyRef Name="MemberId" />
+        <PropertyRef Name="id" />
       </Principal>
       <Dependent Role="Tbl_ShippingDetails">
         <PropertyRef Name="MemberId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="GetBySearch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="search" Type="nvarchar(max)" Mode="In" />
+  </Function>
   <EntityContainer Name="dbMyOnlineShoppingModelStoreContainer">
     <EntitySet Name="Tbl_Cart" EntityType="Self.Tbl_Cart" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tbl_CartStatus" EntityType="Self.Tbl_CartStatus" Schema="dbo" store:Type="Tables" />
@@ -165,7 +163,13 @@ warning 6013: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have 
     <EntitySet Name="Tbl_Roles" EntityType="Self.Tbl_Roles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tbl_ShippingDetails" EntityType="Self.Tbl_ShippingDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tbl_SlideImage" EntityType="Self.Tbl_SlideImage" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="vw_UserRole" EntityType="Self.vw_UserRole" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_UserRole].[id] AS [id], 
+    [vw_UserRole].[EmailId] AS [EmailId], 
+    [vw_UserRole].[RoleName] AS [RoleName]
+    FROM [dbo].[vw_UserRole] AS [vw_UserRole]</DefiningQuery>
+    </EntitySet>
     <AssociationSet Name="FK__Tbl_Cart__Produc__25869641" Association="Self.FK__Tbl_Cart__Produc__25869641">
       <End Role="Tbl_Product" EntitySet="Tbl_Product" />
       <End Role="Tbl_Cart" EntitySet="Tbl_Cart" />

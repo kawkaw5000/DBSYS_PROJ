@@ -13,6 +13,7 @@
         <div class="form-horizontal">
             <h4>Login</h4>
             <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
                 <label class="control-label col-md-2" for="EmailId">Email</label>
                 <div class="col-md-3">
