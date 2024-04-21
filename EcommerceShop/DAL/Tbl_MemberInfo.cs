@@ -12,14 +12,19 @@ namespace EcommerceShop.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Tbl_Cart
+    public partial class Tbl_MemberInfo
     {
-        public int CartId { get; set; }
-        public Nullable<int> ProductId { get; set; }
+        public int id { get; set; }
         public Nullable<int> MemberId { get; set; }
-        public Nullable<int> CartStatusId { get; set; }
-        public Nullable<int> Quantity { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        public string Street { get; set; }
+        public string City { get; set; }
+        public string ZipCode { get; set; }
+        public Nullable<int> StoreId { get; set; }
     
-        public virtual Tbl_Product Tbl_Product { get; set; }
+        public virtual Tbl_Members Tbl_Members { get; set; }
     }
 }

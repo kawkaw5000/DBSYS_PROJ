@@ -19,6 +19,12 @@ namespace EcommerceShop.Repository
             _db = new dbMyOnlineShoppingEntities();
             _table = _db.Set<T>();
         }
+
+        public BaseRepository(dbMyOnlineShoppingEntities _db)
+        {
+            this._db = _db;
+        }
+
         public T Get(object id)
         {
             return _table.Find(id);

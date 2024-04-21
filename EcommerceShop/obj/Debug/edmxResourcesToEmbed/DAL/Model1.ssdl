@@ -8,6 +8,7 @@
     <Property Name="ProductId" Type="int" />
     <Property Name="MemberId" Type="int" />
     <Property Name="CartStatusId" Type="int" />
+    <Property Name="Quantity" Type="int" />
   </EntityType>
   <EntityType Name="Tbl_CartStatus">
     <Key>
@@ -24,6 +25,21 @@
     <Property Name="CategoryName" Type="varchar" MaxLength="500" />
     <Property Name="IsActive" Type="bit" />
     <Property Name="IsDelete" Type="bit" />
+  </EntityType>
+  <EntityType Name="Tbl_MemberInfo">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MemberId" Type="int" />
+    <Property Name="FirstName" Type="varchar" MaxLength="500" />
+    <Property Name="LastName" Type="varchar" MaxLength="500" />
+    <Property Name="Phone" Type="varchar" MaxLength="500" />
+    <Property Name="Email" Type="varchar" MaxLength="500" />
+    <Property Name="Street" Type="varchar" MaxLength="500" />
+    <Property Name="City" Type="varchar" MaxLength="500" />
+    <Property Name="ZipCode" Type="varchar" MaxLength="500" />
+    <Property Name="StoreId" Type="int" />
   </EntityType>
   <EntityType Name="Tbl_MemberRole">
     <Key>
@@ -114,6 +130,18 @@ warning 6002: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have 
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__Tbl_Membe__Membe__7C4F7684">
+    <End Role="Tbl_Members" Type="Self.Tbl_Members" Multiplicity="0..1" />
+    <End Role="Tbl_MemberInfo" Type="Self.Tbl_MemberInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Members">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Tbl_MemberInfo">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__Tbl_Membe__RoleI__22AA2996">
     <End Role="Tbl_Roles" Type="Self.Tbl_Roles" Multiplicity="0..1" />
     <End Role="Tbl_MemberRole" Type="Self.Tbl_MemberRole" Multiplicity="*" />
@@ -157,6 +185,7 @@ warning 6002: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have 
     <EntitySet Name="Tbl_Cart" EntityType="Self.Tbl_Cart" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tbl_CartStatus" EntityType="Self.Tbl_CartStatus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tbl_Category" EntityType="Self.Tbl_Category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_MemberInfo" EntityType="Self.Tbl_MemberInfo" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tbl_MemberRole" EntityType="Self.Tbl_MemberRole" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tbl_Members" EntityType="Self.Tbl_Members" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tbl_Product" EntityType="Self.Tbl_Product" Schema="dbo" store:Type="Tables" />
@@ -173,6 +202,10 @@ warning 6002: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have 
     <AssociationSet Name="FK__Tbl_Cart__Produc__25869641" Association="Self.FK__Tbl_Cart__Produc__25869641">
       <End Role="Tbl_Product" EntitySet="Tbl_Product" />
       <End Role="Tbl_Cart" EntitySet="Tbl_Cart" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Tbl_Membe__Membe__7C4F7684" Association="Self.FK__Tbl_Membe__Membe__7C4F7684">
+      <End Role="Tbl_Members" EntitySet="Tbl_Members" />
+      <End Role="Tbl_MemberInfo" EntitySet="Tbl_MemberInfo" />
     </AssociationSet>
     <AssociationSet Name="FK__Tbl_Membe__RoleI__22AA2996" Association="Self.FK__Tbl_Membe__RoleI__22AA2996">
       <End Role="Tbl_Roles" EntitySet="Tbl_Roles" />

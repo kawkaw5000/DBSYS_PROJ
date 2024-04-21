@@ -25,6 +25,7 @@
     <EntitySetMapping Name="Tbl_Cart">
       <EntityTypeMapping TypeName="dbMyOnlineShoppingModel.Tbl_Cart">
         <MappingFragment StoreEntitySet="Tbl_Cart">
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
           <ScalarProperty Name="CartStatusId" ColumnName="CartStatusId" />
           <ScalarProperty Name="MemberId" ColumnName="MemberId" />
           <ScalarProperty Name="ProductId" ColumnName="ProductId" />
@@ -128,6 +129,22 @@
         <MappingFragment StoreEntitySet="vw_UserRole">
           <ScalarProperty Name="RoleName" ColumnName="RoleName" />
           <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_MemberInfo">
+      <EntityTypeMapping TypeName="dbMyOnlineShoppingModel.Tbl_MemberInfo">
+        <MappingFragment StoreEntitySet="Tbl_MemberInfo">
+          <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+          <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Street" ColumnName="Street" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
           <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>

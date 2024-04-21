@@ -31,6 +31,7 @@
                     {
                         <li><a>Welcome, @User.Identity.Name!</a></li>
                         <li><a href="~/Home/Logout">Logout</a></li>
+                        <li><a href="@Url.Action("AccountInfo", "Home")">My Profile</a></li>
                     }
                     else
                     {

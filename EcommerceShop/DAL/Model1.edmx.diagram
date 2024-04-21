@@ -19,6 +19,8 @@
         <AssociationConnector Association="dbMyOnlineShoppingModel.FK__Tbl_Produ__Categ__145C0A3F" />
         <AssociationConnector Association="dbMyOnlineShoppingModel.FK__Tbl_Membe__RoleI__22AA2996" />
         <AssociationConnector Association="dbMyOnlineShoppingModel.FK__Tbl_Shipp__Membe__1CF15040" />
+        <EntityTypeShape EntityType="dbMyOnlineShoppingModel.Tbl_MemberInfo" Width="1.5" PointX="3" PointY="10" />
+        <AssociationConnector Association="dbMyOnlineShoppingModel.FK__Tbl_Membe__Membe__7C4F7684" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -13,6 +13,7 @@ namespace EcommerceShop.Controllers
     public class HomeController : BaseController
     {
         dbMyOnlineShoppingEntities ctx = new dbMyOnlineShoppingEntities();
+        public GenericUnitOfWork _unitOfWork = new GenericUnitOfWork();
 
 
         [AllowAnonymous]
@@ -85,7 +86,6 @@ namespace EcommerceShop.Controllers
             _userRepo.Create(u);
             return RedirectToAction("Index");
         }
-
 
         [Authorize(Roles = "User, Manager")]
         public ActionResult DecreaseQty(int productId)
@@ -176,6 +176,54 @@ namespace EcommerceShop.Controllers
             Session["cart"] = cart;
             return Redirect("Index");
         }
-        
+
+        public List<SelectListItem> GetMembers(string loggedInUserId)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+
+            var mem = _unitOfWork.GetRepositoryInstance<Tbl_Members>().GetAllRecords()
+                      .Where(m => m.EmailId == loggedInUserId);
+
+            foreach (var item in mem)
+            {
+                list.Add(new SelectListItem { Value = item.id.ToString(), Text = item.EmailId });
+            }
+
+            return list;
+        }
+        public ActionResult AccountInfo()
+        {
+            return View(_unitOfWork.GetRepositoryInstance<Tbl_Members>().GetMembers());
+        }
+        public ActionResult AccountEdit(int memberId)
+        {
+            string loggedInUserId = User.Identity.Name;
+
+            Tbl_Members member = _unitOfWork.GetRepositoryInstance<Tbl_Members>()
+                                  .GetAllRecords()
+                                  .FirstOrDefault(m => m.EmailId == loggedInUserId && m.id == memberId);
+
+            if (member == null)
+            {
+
+                return RedirectToAction("AccessDenied");
+            }
+
+            ViewBag.MembersList = GetMembers(loggedInUserId);
+            return View(member);
+        }
+
+        [HttpPost]
+        public ActionResult AccountEdit(Tbl_Members tbl)
+        {
+
+            tbl.ModifiedOn = DateTime.Now;
+            _unitOfWork.GetRepositoryInstance<Tbl_Members>().Update(tbl);
+            ViewBag.MembersList = GetMembers(User.Identity.Name);
+            return RedirectToAction("UserIndex");
+        }
+
+
     }
 }

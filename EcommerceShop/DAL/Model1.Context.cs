@@ -37,6 +37,7 @@ namespace EcommerceShop.DAL
         public virtual DbSet<Tbl_ShippingDetails> Tbl_ShippingDetails { get; set; }
         public virtual DbSet<Tbl_SlideImage> Tbl_SlideImage { get; set; }
         public virtual DbSet<vw_UserRole> vw_UserRole { get; set; }
+        public virtual DbSet<Tbl_MemberInfo> Tbl_MemberInfo { get; set; }
     
         public virtual ObjectResult<GetBySearch_Result> GetBySearch(string search)
         {
