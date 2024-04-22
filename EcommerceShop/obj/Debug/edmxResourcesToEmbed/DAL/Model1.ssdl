@@ -54,8 +54,6 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="FirstName" Type="varchar" MaxLength="500" />
-    <Property Name="LastName" Type="varchar" MaxLength="500" />
     <Property Name="EmailId" Type="varchar" MaxLength="500" />
     <Property Name="Password" Type="varchar" MaxLength="500" />
     <Property Name="IsActive" Type="bit" />

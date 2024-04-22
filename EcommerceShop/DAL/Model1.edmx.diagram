@@ -10,7 +10,6 @@
         <EntityTypeShape EntityType="dbMyOnlineShoppingModel.Tbl_Category" Width="1.5" PointX="0.75" PointY="1.75" />
         <EntityTypeShape EntityType="dbMyOnlineShoppingModel.Tbl_MemberInfo" Width="1.5" PointX="3" PointY="9.875" />
         <EntityTypeShape EntityType="dbMyOnlineShoppingModel.Tbl_MemberRole" Width="1.5" PointX="8" PointY="4.875" />
-        <EntityTypeShape EntityType="dbMyOnlineShoppingModel.Tbl_Members" Width="1.5" PointX="0.75" PointY="7.875" />
         <EntityTypeShape EntityType="dbMyOnlineShoppingModel.Tbl_Product" Width="1.5" PointX="3" PointY="1" />
         <EntityTypeShape EntityType="dbMyOnlineShoppingModel.Tbl_Roles" Width="1.5" PointX="5.75" PointY="5" />
         <EntityTypeShape EntityType="dbMyOnlineShoppingModel.Tbl_ShippingDetails" Width="1.5" PointX="3" PointY="6.125" />
@@ -18,8 +17,9 @@
         <EntityTypeShape EntityType="dbMyOnlineShoppingModel.vw_UserRole" Width="1.5" PointX="7.75" PointY="7.75" />
         <AssociationConnector Association="dbMyOnlineShoppingModel.FK__Tbl_Cart__Produc__25869641" />
         <AssociationConnector Association="dbMyOnlineShoppingModel.FK__Tbl_Produ__Categ__145C0A3F" />
-        <AssociationConnector Association="dbMyOnlineShoppingModel.FK__Tbl_Membe__Membe__7C4F7684" />
         <AssociationConnector Association="dbMyOnlineShoppingModel.FK__Tbl_Membe__RoleI__22AA2996" />
+        <EntityTypeShape EntityType="dbMyOnlineShoppingModel.Tbl_Members" Width="1.5" PointX="0.75" PointY="8.25" />
+        <AssociationConnector Association="dbMyOnlineShoppingModel.FK__Tbl_Membe__Membe__7C4F7684" />
         <AssociationConnector Association="dbMyOnlineShoppingModel.FK__Tbl_Shipp__Membe__1CF15040" />
       </Diagram>
     </edmx:Diagrams>

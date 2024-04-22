@@ -377,6 +377,7 @@
     <Folder Include="AdminStyle\vendor\" />
     <Folder Include="App_Data\" />
     <Folder Include="ProductImg\" />
+    <Folder Include="UserImg\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>

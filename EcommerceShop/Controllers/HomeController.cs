@@ -251,7 +251,7 @@ namespace EcommerceShop.Controllers
             if (file != null)
             {
                 pic = System.IO.Path.GetFileName(file.FileName);
-                string path = System.IO.Path.Combine(Server.MapPath("~/ProductImg/"), pic);
+                string path = System.IO.Path.Combine(Server.MapPath("~/UserImg/"), pic);
                 file.SaveAs(path);
             }
             tbl.UserImage = pic;
