@@ -35,7 +35,6 @@
     <Property Name="FirstName" Type="varchar" MaxLength="500" />
     <Property Name="LastName" Type="varchar" MaxLength="500" />
     <Property Name="Phone" Type="varchar" MaxLength="500" />
-    <Property Name="Email" Type="varchar" MaxLength="500" />
     <Property Name="Street" Type="varchar" MaxLength="500" />
     <Property Name="City" Type="varchar" MaxLength="500" />
     <Property Name="ZipCode" Type="varchar" MaxLength="500" />

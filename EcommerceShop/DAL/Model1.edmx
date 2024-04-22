@@ -40,7 +40,6 @@
           <Property Name="FirstName" Type="varchar" MaxLength="500" />
           <Property Name="LastName" Type="varchar" MaxLength="500" />
           <Property Name="Phone" Type="varchar" MaxLength="500" />
-          <Property Name="Email" Type="varchar" MaxLength="500" />
           <Property Name="Street" Type="varchar" MaxLength="500" />
           <Property Name="City" Type="varchar" MaxLength="500" />
           <Property Name="ZipCode" Type="varchar" MaxLength="500" />
@@ -236,6 +235,7 @@ warning 6002: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have 
           <EntitySet Name="Tbl_Cart" EntityType="dbMyOnlineShoppingModel.Tbl_Cart" />
           <EntitySet Name="Tbl_CartStatus" EntityType="dbMyOnlineShoppingModel.Tbl_CartStatus" />
           <EntitySet Name="Tbl_Category" EntityType="dbMyOnlineShoppingModel.Tbl_Category" />
+          <EntitySet Name="Tbl_MemberInfo" EntityType="dbMyOnlineShoppingModel.Tbl_MemberInfo" />
           <EntitySet Name="Tbl_MemberRole" EntityType="dbMyOnlineShoppingModel.Tbl_MemberRole" />
           <EntitySet Name="Tbl_Members" EntityType="dbMyOnlineShoppingModel.Tbl_Members" />
           <EntitySet Name="Tbl_Product" EntityType="dbMyOnlineShoppingModel.Tbl_Product" />
@@ -251,6 +251,10 @@ warning 6002: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have 
             <End Role="Tbl_Category" EntitySet="Tbl_Category" />
             <End Role="Tbl_Product" EntitySet="Tbl_Product" />
           </AssociationSet>
+          <AssociationSet Name="FK__Tbl_Membe__Membe__7C4F7684" Association="dbMyOnlineShoppingModel.FK__Tbl_Membe__Membe__7C4F7684">
+            <End Role="Tbl_Members" EntitySet="Tbl_Members" />
+            <End Role="Tbl_MemberInfo" EntitySet="Tbl_MemberInfo" />
+          </AssociationSet>
           <AssociationSet Name="FK__Tbl_Membe__RoleI__22AA2996" Association="dbMyOnlineShoppingModel.FK__Tbl_Membe__RoleI__22AA2996">
             <End Role="Tbl_Roles" EntitySet="Tbl_Roles" />
             <End Role="Tbl_MemberRole" EntitySet="Tbl_MemberRole" />
@@ -258,11 +262,6 @@ warning 6002: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have 
           <AssociationSet Name="FK__Tbl_Shipp__Membe__1CF15040" Association="dbMyOnlineShoppingModel.FK__Tbl_Shipp__Membe__1CF15040">
             <End Role="Tbl_Members" EntitySet="Tbl_Members" />
             <End Role="Tbl_ShippingDetails" EntitySet="Tbl_ShippingDetails" />
-          </AssociationSet>
-          <EntitySet Name="Tbl_MemberInfo" EntityType="dbMyOnlineShoppingModel.Tbl_MemberInfo" />
-          <AssociationSet Name="FK__Tbl_Membe__Membe__7C4F7684" Association="dbMyOnlineShoppingModel.FK__Tbl_Membe__Membe__7C4F7684">
-            <End Role="Tbl_Members" EntitySet="Tbl_Members" />
-            <End Role="Tbl_MemberInfo" EntitySet="Tbl_MemberInfo" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetBySearch_Result">
@@ -290,8 +289,8 @@ warning 6002: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have 
           <Property Name="ProductId" Type="Int32" />
           <Property Name="MemberId" Type="Int32" />
           <Property Name="CartStatusId" Type="Int32" />
-          <NavigationProperty Name="Tbl_Product" Relationship="dbMyOnlineShoppingModel.FK__Tbl_Cart__Produc__25869641" FromRole="Tbl_Cart" ToRole="Tbl_Product" />
           <Property Name="Quantity" Type="Int32" />
+          <NavigationProperty Name="Tbl_Product" Relationship="dbMyOnlineShoppingModel.FK__Tbl_Cart__Produc__25869641" FromRole="Tbl_Cart" ToRole="Tbl_Product" />
         </EntityType>
         <EntityType Name="Tbl_CartStatus">
           <Key>
@@ -309,6 +308,21 @@ warning 6002: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have 
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="IsDelete" Type="Boolean" />
           <NavigationProperty Name="Tbl_Product" Relationship="dbMyOnlineShoppingModel.FK__Tbl_Produ__Categ__145C0A3F" FromRole="Tbl_Category" ToRole="Tbl_Product" />
+        </EntityType>
+        <EntityType Name="Tbl_MemberInfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberId" Type="Int32" />
+          <Property Name="FirstName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Street" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ZipCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="StoreId" Type="Int32" />
+          <NavigationProperty Name="Tbl_Members" Relationship="dbMyOnlineShoppingModel.FK__Tbl_Membe__Membe__7C4F7684" FromRole="Tbl_MemberInfo" ToRole="Tbl_Members" />
         </EntityType>
         <EntityType Name="Tbl_MemberRole">
           <Key>
@@ -332,8 +346,8 @@ warning 6002: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have 
           <Property Name="IsDelete" Type="Boolean" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Tbl_ShippingDetails" Relationship="dbMyOnlineShoppingModel.FK__Tbl_Shipp__Membe__1CF15040" FromRole="Tbl_Members" ToRole="Tbl_ShippingDetails" />
           <NavigationProperty Name="Tbl_MemberInfo" Relationship="dbMyOnlineShoppingModel.FK__Tbl_Membe__Membe__7C4F7684" FromRole="Tbl_Members" ToRole="Tbl_MemberInfo" />
+          <NavigationProperty Name="Tbl_ShippingDetails" Relationship="dbMyOnlineShoppingModel.FK__Tbl_Shipp__Membe__1CF15040" FromRole="Tbl_Members" ToRole="Tbl_ShippingDetails" />
         </EntityType>
         <EntityType Name="Tbl_Product">
           <Key>
@@ -416,6 +430,18 @@ warning 6002: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Tbl_Membe__Membe__7C4F7684">
+          <End Type="dbMyOnlineShoppingModel.Tbl_Members" Role="Tbl_Members" Multiplicity="0..1" />
+          <End Type="dbMyOnlineShoppingModel.Tbl_MemberInfo" Role="Tbl_MemberInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Members">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Tbl_MemberInfo">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Tbl_Membe__RoleI__22AA2996">
           <End Type="dbMyOnlineShoppingModel.Tbl_Roles" Role="Tbl_Roles" Multiplicity="0..1" />
           <End Type="dbMyOnlineShoppingModel.Tbl_MemberRole" Role="Tbl_MemberRole" Multiplicity="*" />
@@ -436,34 +462,6 @@ warning 6002: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have 
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Tbl_ShippingDetails">
-              <PropertyRef Name="MemberId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Tbl_MemberInfo">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MemberId" Type="Int32" />
-          <Property Name="FirstName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="LastName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="Phone" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="Street" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="City" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="ZipCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="StoreId" Type="Int32" />
-          <NavigationProperty Name="Tbl_Members" Relationship="dbMyOnlineShoppingModel.FK__Tbl_Membe__Membe__7C4F7684" FromRole="Tbl_MemberInfo" ToRole="Tbl_Members" />
-        </EntityType>
-        <Association Name="FK__Tbl_Membe__Membe__7C4F7684">
-          <End Type="dbMyOnlineShoppingModel.Tbl_Members" Role="Tbl_Members" Multiplicity="0..1" />
-          <End Type="dbMyOnlineShoppingModel.Tbl_MemberInfo" Role="Tbl_MemberInfo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tbl_Members">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Tbl_MemberInfo">
               <PropertyRef Name="MemberId" />
             </Dependent>
           </ReferentialConstraint>
@@ -521,6 +519,21 @@ warning 6002: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have 
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_MemberInfo">
+            <EntityTypeMapping TypeName="dbMyOnlineShoppingModel.Tbl_MemberInfo">
+              <MappingFragment StoreEntitySet="Tbl_MemberInfo">
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -606,23 +619,7 @@ warning 6002: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Tbl_MemberInfo">
-            <EntityTypeMapping TypeName="dbMyOnlineShoppingModel.Tbl_MemberInfo">
-              <MappingFragment StoreEntitySet="Tbl_MemberInfo">
-                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
-                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="Street" ColumnName="Street" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
