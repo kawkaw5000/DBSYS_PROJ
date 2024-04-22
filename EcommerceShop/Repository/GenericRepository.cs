@@ -127,5 +127,9 @@ namespace EcommerceShop.Repository
         {
             return _dbSet.ToList();
         }
+        public IEnumerable<Tbl_Entity> GetMemberInfo()
+        {
+            return _dbSet.ToList();
+        }
     }
 }

@@ -23,6 +23,7 @@ namespace EcommerceShop.DAL
         public string City { get; set; }
         public string ZipCode { get; set; }
         public Nullable<int> StoreId { get; set; }
+        public string UserImage { get; set; }
     
         public virtual Tbl_Members Tbl_Members { get; set; }
     }

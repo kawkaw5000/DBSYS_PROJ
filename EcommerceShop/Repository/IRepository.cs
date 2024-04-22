@@ -16,6 +16,7 @@ namespace EcommerceShop.Repository
  
         IEnumerable<Tbl_Entity> GetProduct();
         IEnumerable<Tbl_Entity> GetMembers();
+        IEnumerable<Tbl_Entity> GetMemberInfo();
         IEnumerable<Tbl_Entity> GetAllRecords();
         IQueryable<Tbl_Entity> GetAllRecordsIQueryable();
         int GetAllrecordCount();

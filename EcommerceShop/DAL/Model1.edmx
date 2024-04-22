@@ -44,6 +44,7 @@
           <Property Name="City" Type="varchar" MaxLength="500" />
           <Property Name="ZipCode" Type="varchar" MaxLength="500" />
           <Property Name="StoreId" Type="int" />
+          <Property Name="UserImage" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Tbl_MemberRole">
           <Key>
@@ -323,6 +324,7 @@ warning 6002: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have 
           <Property Name="ZipCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="StoreId" Type="Int32" />
           <NavigationProperty Name="Tbl_Members" Relationship="dbMyOnlineShoppingModel.FK__Tbl_Membe__Membe__7C4F7684" FromRole="Tbl_MemberInfo" ToRole="Tbl_Members" />
+          <Property Name="UserImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Tbl_MemberRole">
           <Key>
@@ -525,6 +527,7 @@ warning 6002: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have 
           <EntitySetMapping Name="Tbl_MemberInfo">
             <EntityTypeMapping TypeName="dbMyOnlineShoppingModel.Tbl_MemberInfo">
               <MappingFragment StoreEntitySet="Tbl_MemberInfo">
+                <ScalarProperty Name="UserImage" ColumnName="UserImage" />
                 <ScalarProperty Name="StoreId" ColumnName="StoreId" />
                 <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
                 <ScalarProperty Name="City" ColumnName="City" />

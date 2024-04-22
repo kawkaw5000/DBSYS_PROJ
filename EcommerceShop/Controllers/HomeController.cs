@@ -76,7 +76,7 @@ namespace EcommerceShop.Controllers
         {
             return View();
         }
-       
+
         [HttpPost]
         public ActionResult Create(Tbl_Members u)
         {
@@ -84,7 +84,7 @@ namespace EcommerceShop.Controllers
             u.IsDelete = true;
             u.CreatedOn = DateTime.Now;
             _userRepo.Create(u);
-            return RedirectToAction("Index");
+            return RedirectToAction("AddUserInfo");
         }
 
         [Authorize(Roles = "User, Manager")]
@@ -222,6 +222,41 @@ namespace EcommerceShop.Controllers
             _unitOfWork.GetRepositoryInstance<Tbl_Members>().Update(tbl);
             ViewBag.MembersList = GetMembers(User.Identity.Name);
             return RedirectToAction("UserIndex");
+        }
+        public List<SelectListItem> GetMembersInfo()
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            var mem = _unitOfWork.GetRepositoryInstance<Tbl_Members>().GetAllRecords();
+            foreach (var item in mem)
+            {
+                list.Add(new SelectListItem { Value = item.id.ToString(), Text = item.EmailId });
+            }
+            return list;
+        }
+
+        public ActionResult MemberInfo()
+        {
+            return View(_unitOfWork.GetRepositoryInstance<Tbl_MemberInfo>().GetMemberInfo());
+        }
+
+        public ActionResult AddUserInfo()
+        {
+            ViewBag.MemberList = GetMembersInfo();
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddUserInfo(Tbl_MemberInfo tbl, HttpPostedFileBase file)
+        {
+            string pic = null;
+            if (file != null)
+            {
+                pic = System.IO.Path.GetFileName(file.FileName);
+                string path = System.IO.Path.Combine(Server.MapPath("~/ProductImg/"), pic);
+                file.SaveAs(path);
+            }
+            tbl.UserImage = pic;
+            _unitOfWork.GetRepositoryInstance<Tbl_MemberInfo>().Add(tbl);
+            return RedirectToAction("Index");
         }
 
 

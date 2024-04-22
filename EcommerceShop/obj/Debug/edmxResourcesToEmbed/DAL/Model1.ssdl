@@ -39,6 +39,7 @@
     <Property Name="City" Type="varchar" MaxLength="500" />
     <Property Name="ZipCode" Type="varchar" MaxLength="500" />
     <Property Name="StoreId" Type="int" />
+    <Property Name="UserImage" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="Tbl_MemberRole">
     <Key>

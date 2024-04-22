@@ -95,6 +95,7 @@
     <Property Name="ZipCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
     <Property Name="StoreId" Type="Int32" />
     <NavigationProperty Name="Tbl_Members" Relationship="dbMyOnlineShoppingModel.FK__Tbl_Membe__Membe__7C4F7684" FromRole="Tbl_MemberInfo" ToRole="Tbl_Members" />
+    <Property Name="UserImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="Tbl_MemberRole">
     <Key>

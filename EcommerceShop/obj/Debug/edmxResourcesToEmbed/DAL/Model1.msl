@@ -54,6 +54,7 @@
     <EntitySetMapping Name="Tbl_MemberInfo">
       <EntityTypeMapping TypeName="dbMyOnlineShoppingModel.Tbl_MemberInfo">
         <MappingFragment StoreEntitySet="Tbl_MemberInfo">
+          <ScalarProperty Name="UserImage" ColumnName="UserImage" />
           <ScalarProperty Name="StoreId" ColumnName="StoreId" />
           <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
           <ScalarProperty Name="City" ColumnName="City" />
