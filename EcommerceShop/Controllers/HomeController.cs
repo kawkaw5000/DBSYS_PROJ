@@ -84,7 +84,7 @@ namespace EcommerceShop.Controllers
             u.IsDelete = true;
             u.CreatedOn = DateTime.Now;
             _userRepo.Create(u);
-            return RedirectToAction("AddUserInfo");
+            return RedirectToAction("Index");
         }
 
         [Authorize(Roles = "User, Manager")]
@@ -256,7 +256,7 @@ namespace EcommerceShop.Controllers
             }
             tbl.UserImage = pic;
             _unitOfWork.GetRepositoryInstance<Tbl_MemberInfo>().Add(tbl);
-            return RedirectToAction("Index");
+            return RedirectToAction("Create");
         }
 
 
