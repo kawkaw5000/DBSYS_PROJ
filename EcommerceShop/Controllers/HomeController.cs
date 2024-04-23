@@ -72,20 +72,7 @@ namespace EcommerceShop.Controllers
             return View();
         }
 
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Create(Tbl_Members u)
-        {
-            u.IsActive = false;
-            u.IsDelete = true;
-            u.CreatedOn = DateTime.Now;
-            _userRepo.Create(u);
-            return RedirectToAction("Index");
-        }
+       
 
         [Authorize(Roles = "User, Manager")]
         public ActionResult DecreaseQty(int productId)
@@ -192,6 +179,7 @@ namespace EcommerceShop.Controllers
 
             return list;
         }
+
         public ActionResult AccountInfo()
         {
             return View(_unitOfWork.GetRepositoryInstance<Tbl_Members>().GetMembers());
@@ -206,7 +194,6 @@ namespace EcommerceShop.Controllers
 
             if (member == null)
             {
-
                 return RedirectToAction("AccessDenied");
             }
 
@@ -234,19 +221,45 @@ namespace EcommerceShop.Controllers
             return list;
         }
 
+        public ActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Create(Tbl_Members u)
+        {
+            u.IsActive = false;
+            u.IsDelete = true;
+            u.CreatedOn = DateTime.Now;
+            _userRepo.Create(u);
+
+
+            int memberId = u.id; 
+
+
+            return RedirectToAction("AddUserInfo", new { memberId = memberId });
+        }
+
         public ActionResult MemberInfo()
         {
             return View(_unitOfWork.GetRepositoryInstance<Tbl_MemberInfo>().GetMemberInfo());
         }
 
-        public ActionResult AddUserInfo()
+        public ActionResult AddUserInfo(int memberId)
         {
             ViewBag.MemberList = GetMembersInfo();
+
+            ViewBag.MemberId = memberId;
             return View();
         }
         [HttpPost]
         public ActionResult AddUserInfo(Tbl_MemberInfo tbl, HttpPostedFileBase file)
         {
+
+            int memberId = Convert.ToInt32(Request.Form["MemberId"]);
+
+            tbl.MemberId = memberId;
+
             string pic = null;
             if (file != null)
             {
@@ -256,9 +269,12 @@ namespace EcommerceShop.Controllers
             }
             tbl.UserImage = pic;
             _unitOfWork.GetRepositoryInstance<Tbl_MemberInfo>().Add(tbl);
-            return RedirectToAction("Create");
+            return RedirectToAction("Index");
         }
-
+        public ActionResult AddUserInfod()
+        {
+            return View();
+        }
 
     }
 }

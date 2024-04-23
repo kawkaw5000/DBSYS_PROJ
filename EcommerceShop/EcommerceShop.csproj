@@ -369,6 +369,7 @@
     <Content Include="Views\Home\AccountInfo.cshtml" />
     <Content Include="Views\Home\AccountEdit.cshtml" />
     <Content Include="Views\Home\AddUserInfo.cshtml" />
+    <Content Include="Views\Home\AddUserInfod.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AdminStyle\css\" />
