@@ -65,10 +65,10 @@ namespace EcommerceShop.Controllers
                     return View();
                 }
 
-                FormsAuthentication.SetAuthCookie(u.EmailId, false);
+                FormsAuthentication.SetAuthCookie(u.Username, false);
                 return RedirectToAction("UserIndex");
             }
-            ModelState.AddModelError("", "Email does not Exist or Incorrect Password");
+            ModelState.AddModelError("", "Username does not Exist or Incorrect Password");
 
             return View();
         }

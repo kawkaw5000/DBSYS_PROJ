@@ -13,47 +13,50 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Tbl_Members</h4>
+      
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         
         <div class="form-group">
-            @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control" } })
+            <label class="col-md-2 control-label">Username</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", @required = true } })
                 @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+            <label class="col-md-2 control-label">Password</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @type = "Password", @required = true } })
                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ConfirmPass, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ConfirmPass, new { htmlAttributes = new { @class = "form-control" } })
+            <label class="col-md-2 control-label">Confirm Pass</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.ConfirmPass, new { htmlAttributes = new { @class = "form-control", @type = "Password", @required = true } })
                 @Html.ValidationMessageFor(model => model.ConfirmPass, "", new { @class = "text-danger" })
             </div>
         </div>
+
         <div class="form-group">
-            @Html.LabelFor(model => model.EmailId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <label class="col-md-2 control-label">Email</label>
+            <div class="col-md-3">
                 @Html.EditorFor(model => model.EmailId, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            User Type
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.roleId, (IEnumerable<SelectListItem>)ViewBag.Roles, new { @class = "form-control" })
+            <label class="col-md-2 control-label">User type</label>
+            <div class="col-md-3">
+                @Html.DropDownListFor(model => model.roleId, (IEnumerable<SelectListItem>)ViewBag.Roles, "Select Role", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.roleId, "", new { @class = "text-danger" })
             </div>
         </div>
+
 
         @Html.HiddenFor(model => model.IsActive, new { htmlAttributes = new { @class = "form-control" } })
 

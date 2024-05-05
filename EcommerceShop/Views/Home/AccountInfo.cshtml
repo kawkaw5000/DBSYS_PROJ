@@ -14,7 +14,7 @@
     Response.Expires = -1;
 
     var loggedInUserId = User.Identity.Name;
-    var loggedInUserMembers = Model.Where(m => m.EmailId == loggedInUserId).ToList(); // Convert to list to prevent multiple enumeration
+    var loggedInUserMembers = Model.Where(m => m.Username == loggedInUserId).ToList(); // Convert to list to prevent multiple enumeration
 }
 
 <div class="card mb-3">
@@ -45,7 +45,7 @@
                         {
                             <tr>
                                 <td>@count</td>
-                                <td>@item.EmailId</td>
+                                <td>@item.Username</td>
                                 <td>
                                     @Html.ActionLink("Edit", "AccountEdit", new { memberId = item.id })
                                 </td>

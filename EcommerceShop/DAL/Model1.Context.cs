@@ -33,11 +33,11 @@ namespace EcommerceShop.DAL
         public virtual DbSet<Tbl_Category> Tbl_Category { get; set; }
         public virtual DbSet<Tbl_MemberInfo> Tbl_MemberInfo { get; set; }
         public virtual DbSet<Tbl_Members> Tbl_Members { get; set; }
-        public virtual DbSet<Tbl_Product> Tbl_Product { get; set; }
-        public virtual DbSet<Tbl_Roles> Tbl_Roles { get; set; }
         public virtual DbSet<Tbl_ShippingDetails> Tbl_ShippingDetails { get; set; }
         public virtual DbSet<Tbl_SlideImage> Tbl_SlideImage { get; set; }
         public virtual DbSet<vw_UserRole> vw_UserRole { get; set; }
+        public virtual DbSet<Tbl_Roles> Tbl_Roles { get; set; }
+        public virtual DbSet<Tbl_Product> Tbl_Product { get; set; }
     
         public virtual ObjectResult<GetBySearch_Result> GetBySearch(string search)
         {

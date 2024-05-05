@@ -45,41 +45,7 @@ namespace EcommerceShop.Controllers
         {
             return View();
         }
-        //[AllowAnonymous]
-        //public ActionResult AdminLogin()
-        //{
-        //    if (User.Identity.IsAuthenticated)
-        //        return RedirectToAction("Dashboard");
-        //    return View();
-        //}
-        //[AllowAnonymous]
-        //[HttpPost]
-        //public ActionResult AdminLogin(Tbl_Members u)
-        //{
-        //    var user = _userRepo.Table.FirstOrDefault(m => m.EmailId == u.EmailId && m.Password == u.Password);
-        //    if (user != null)
-        //    {
-        //        if (user.IsDelete == true)
-        //        {
-        //            ModelState.AddModelError("", "Your account has set to isInactive wait for Admin Aproval.");
-        //            return View();
-        //        }
-
-        //        if (!user.IsActive == true)
-        //        {
-        //            ModelState.AddModelError("", "Your account is not active. Please contact support.");
-        //            return View();
-        //        }
-
-        //        FormsAuthentication.SetAuthCookie(u.EmailId, false);
-        //        return RedirectToAction("Dashboard");
-        //    }
-        //    ModelState.AddModelError("", "Email does not Exist or Incorrect Password");
-
-        //    return View();
-        //}
-
-
+      
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
