@@ -81,10 +81,10 @@
                 <div class="caption">
                     <h5>@item.ProductName</h5>
                     <p>PHP<text>@String.Format("{0:N0}", @item.Price)</text></p>
-                    <p>
+   
                         @if (item.Quantity > 0)
                         {
-                            using (Html.BeginForm("AddToCart", "Home", new { productId = item.ProductId, url = "Index" }, FormMethod.Post))
+                            using (Html.BeginForm("AddToCart", "Home", new { productId = item.ProductId }, FormMethod.Post))
                             {
                                 <button type="submit" class="pull-right"><i class="fa fa-shopping-cart"></i></button>
                             }
@@ -94,13 +94,13 @@
                         {
                             <p>Not Available</p>
                         }
-                        </p>
+      
 
                         <div class="product-item-badge">
 
                             @if (item.IsFeatured == true)
                             {
-                                <p>New</p>
+<p>New</p>
                             }
                             else
                             {

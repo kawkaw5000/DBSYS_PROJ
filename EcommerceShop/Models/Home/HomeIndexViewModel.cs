@@ -17,6 +17,7 @@ namespace EcommerceShop.Models.Home
 
         dbMyOnlineShoppingEntities context = new dbMyOnlineShoppingEntities();
 
+        public List<Tbl_Cart> CartItems { get; internal set; }
         public IPagedList<Tbl_Product> ListOfProducts { get; set; }
 
         public HomeIndexViewModel CreateModel(string search,int pageSize, int? page)

@@ -1,4 +1,5 @@
 ﻿using EcommerceShop.DAL;
+using EcommerceShop.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace EcommerceShop.Utils
 {
     public class MyRole : RoleProvider
     {
+        public BaseRepository<Tbl_Roles> _role = new BaseRepository<Tbl_Roles>();
         public override string ApplicationName
         {
             get
@@ -44,18 +46,14 @@ namespace EcommerceShop.Utils
 
         public override string[] GetAllRoles()
         {
-            using (var db = new dbMyOnlineShoppingEntities())
-            {
-                return db.vw_UserRole.Select(m => m.RoleName).ToArray();
-            }
+            return _role.GetAll().Select(m => m.RoleName).ToArray();
         }
 
-        public override string[] GetRolesForUser(string EmailId)
+        public override string[] GetRolesForUser(string Username)
         {
-            using (var db = new dbMyOnlineShoppingEntities())
-            {
-                return db.vw_UserRole.Where(m => m.EmailId == EmailId).Select(m => m.RoleName).ToArray();
-            }
+            dbMyOnlineShoppingEntities db = new dbMyOnlineShoppingEntities();         
+            return db.vw_UserRole.Where(m => m.Username == Username).Select(m => m.RoleName).ToArray();
+            
         }
 
         public override string[] GetUsersInRole(string roleName)

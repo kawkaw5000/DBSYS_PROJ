@@ -10,14 +10,13 @@
 namespace EcommerceShop.DAL
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Tbl_MemberRole
+    public partial class sp_helpdiagrams_Result
     {
-        public int id { get; set; }
-        public Nullable<int> MemberId { get; set; }
-        public Nullable<int> RoleId { get; set; }
-    
-        public virtual Tbl_Roles Tbl_Roles { get; set; }
+        public string Database { get; set; }
+        public string Name { get; set; }
+        public int ID { get; set; }
+        public string Owner { get; set; }
+        public int OwnerID { get; set; }
     }
 }

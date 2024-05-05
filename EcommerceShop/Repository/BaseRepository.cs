@@ -34,17 +34,19 @@ namespace EcommerceShop.Repository
         {
             return _table.ToList();
         }
-        public Contracts.ErrorCode Create(T t)
+        public Contracts.ErrorCode Create(T t, out string errorMsg)
         {
             try
             {
                 _table.Add(t);
                 _db.SaveChanges();
+                errorMsg = "Success";
+
                 return Contracts.ErrorCode.Success;
             }
             catch (Exception ex)
             {
-
+                errorMsg = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                 return Contracts.ErrorCode.Error;
             }
         }

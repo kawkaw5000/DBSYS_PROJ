@@ -27,7 +27,7 @@ namespace EcommerceShop.Controllers
         [HttpPost]
         public ActionResult Login(Tbl_Members u)
         {
-            var user = _userRepo.Table.FirstOrDefault(m => m.EmailId == u.EmailId && m.Password == u.Password);
+            var user = _userRepo.Table.FirstOrDefault(m => m.Username == u.Username && m.Password == u.Password);
             if (user != null)
             {
                 if (user.IsDelete == true)
@@ -42,10 +42,10 @@ namespace EcommerceShop.Controllers
                     return View();
                 }
 
-                FormsAuthentication.SetAuthCookie(u.EmailId, false);
+                FormsAuthentication.SetAuthCookie(u.Username, false);
                 return RedirectToAction("Dashboard", "Admin");
             }
-            ModelState.AddModelError("", "Email does not Exist or Incorrect Password");
+            ModelState.AddModelError("", "Username does not Exist or Incorrect Password");
 
             return View();
         }

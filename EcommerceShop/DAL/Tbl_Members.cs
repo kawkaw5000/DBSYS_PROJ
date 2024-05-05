@@ -22,16 +22,23 @@ namespace EcommerceShop.DAL
         }
     
         public int id { get; set; }
-        public string EmailId { get; set; }
-        public string Password { get; set; }
+        public string userId { get; set; }
         public Nullable<bool> IsActive { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public Nullable<int> ConfirmPass { get; set; }
+        public string EmailId { get; set; }
         public Nullable<bool> IsDelete { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public Nullable<System.DateTime> ModifiedOn { get; set; }
+        public Nullable<int> roleId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tbl_MemberInfo> Tbl_MemberInfo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tbl_ShippingDetails> Tbl_ShippingDetails { get; set; }
+        public virtual Tbl_Members Tbl_Members1 { get; set; }
+        public virtual Tbl_Members Tbl_Members2 { get; set; }
+        public virtual Tbl_Roles Tbl_Roles { get; set; }
     }
 }

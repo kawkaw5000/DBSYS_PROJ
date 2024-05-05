@@ -228,6 +228,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DAL\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\sp_helpdiagrams_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\sysdiagrams.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Tbl_Cart.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -238,9 +247,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Tbl_MemberInfo.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Tbl_MemberRole.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Tbl_Members.cs">
@@ -265,17 +271,21 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CategoryDetail.cs" />
+    <Compile Include="Models\Home\CartViewModel.cs" />
     <Compile Include="Models\Home\HomeIndexViewModel.cs" />
     <Compile Include="Models\Home\Item.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Shopping.cs" />
+    <Compile Include="Models\UserLogged.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
     <Compile Include="Repository\GenericRepository.cs" />
     <Compile Include="Repository\GenericUnitOfWork.cs" />
     <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="Repository\UserManager.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\MyRole.cs" />
+    <Compile Include="Utils\Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -370,6 +380,7 @@
     <Content Include="Views\Home\AccountEdit.cshtml" />
     <Content Include="Views\Home\AddUserInfo.cshtml" />
     <Content Include="Views\Home\AddUserInfod.cshtml" />
+    <Content Include="Views\Home\SignUp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AdminStyle\css\" />
@@ -377,6 +388,7 @@
     <Folder Include="AdminStyle\scss\" />
     <Folder Include="AdminStyle\vendor\" />
     <Folder Include="App_Data\" />
+    <Folder Include="NewFolder1\" />
     <Folder Include="ProductImg\" />
     <Folder Include="UserImg\" />
     <Folder Include="Views\Base\" />

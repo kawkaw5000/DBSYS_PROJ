@@ -17,13 +17,13 @@ namespace EcommerceShop.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Tbl_Roles()
         {
-            this.Tbl_MemberRole = new HashSet<Tbl_MemberRole>();
+            this.Tbl_Members = new HashSet<Tbl_Members>();
         }
     
         public int id { get; set; }
         public string RoleName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tbl_MemberRole> Tbl_MemberRole { get; set; }
+        public virtual ICollection<Tbl_Members> Tbl_Members { get; set; }
     }
 }

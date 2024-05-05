@@ -25,7 +25,7 @@ namespace EcommerceShop.Controllers
             var mem = _unitOfWork.GetRepositoryInstance<Tbl_Members>().GetAllRecords();
             foreach (var item in mem)
             {
-                list.Add(new SelectListItem { Value = item.id.ToString(), Text = item.EmailId });
+                list.Add(new SelectListItem { Value = item.id.ToString(), Text = item.Username });
             }
             return list;
         }

@@ -4,11 +4,12 @@
     <FunctionImport Name="GetBySearch" ReturnType="Collection(dbMyOnlineShoppingModel.GetBySearch_Result)">
       <Parameter Name="search" Mode="In" Type="String" />
     </FunctionImport>
+    <EntitySet Name="sysdiagrams" EntityType="dbMyOnlineShoppingModel.sysdiagrams" />
     <EntitySet Name="Tbl_Cart" EntityType="dbMyOnlineShoppingModel.Tbl_Cart" />
     <EntitySet Name="Tbl_CartStatus" EntityType="dbMyOnlineShoppingModel.Tbl_CartStatus" />
     <EntitySet Name="Tbl_Category" EntityType="dbMyOnlineShoppingModel.Tbl_Category" />
     <EntitySet Name="Tbl_MemberInfo" EntityType="dbMyOnlineShoppingModel.Tbl_MemberInfo" />
-    <EntitySet Name="Tbl_MemberRole" EntityType="dbMyOnlineShoppingModel.Tbl_MemberRole" />
+    <EntitySet Name="Tbl_Members" EntityType="dbMyOnlineShoppingModel.Tbl_Members" />
     <EntitySet Name="Tbl_Product" EntityType="dbMyOnlineShoppingModel.Tbl_Product" />
     <EntitySet Name="Tbl_Roles" EntityType="dbMyOnlineShoppingModel.Tbl_Roles" />
     <EntitySet Name="Tbl_ShippingDetails" EntityType="dbMyOnlineShoppingModel.Tbl_ShippingDetails" />
@@ -22,11 +23,6 @@
       <End Role="Tbl_Category" EntitySet="Tbl_Category" />
       <End Role="Tbl_Product" EntitySet="Tbl_Product" />
     </AssociationSet>
-    <AssociationSet Name="FK__Tbl_Membe__RoleI__22AA2996" Association="dbMyOnlineShoppingModel.FK__Tbl_Membe__RoleI__22AA2996">
-      <End Role="Tbl_Roles" EntitySet="Tbl_Roles" />
-      <End Role="Tbl_MemberRole" EntitySet="Tbl_MemberRole" />
-    </AssociationSet>
-    <EntitySet Name="Tbl_Members" EntityType="dbMyOnlineShoppingModel.Tbl_Members" />
     <AssociationSet Name="FK__Tbl_Membe__Membe__7C4F7684" Association="dbMyOnlineShoppingModel.FK__Tbl_Membe__Membe__7C4F7684">
       <End Role="Tbl_Members" EntitySet="Tbl_Members" />
       <End Role="Tbl_MemberInfo" EntitySet="Tbl_MemberInfo" />
@@ -35,6 +31,44 @@
       <End Role="Tbl_Members" EntitySet="Tbl_Members" />
       <End Role="Tbl_ShippingDetails" EntitySet="Tbl_ShippingDetails" />
     </AssociationSet>
+    <AssociationSet Name="FK_Tbl_Members_Tbl_Members" Association="dbMyOnlineShoppingModel.FK_Tbl_Members_Tbl_Members">
+      <End Role="Tbl_Members" EntitySet="Tbl_Members" />
+      <End Role="Tbl_Members1" EntitySet="Tbl_Members" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tbl_Members_Tbl_Roles" Association="dbMyOnlineShoppingModel.FK_Tbl_Members_Tbl_Roles">
+      <End Role="Tbl_Roles" EntitySet="Tbl_Roles" />
+      <End Role="Tbl_Members" EntitySet="Tbl_Members" />
+    </AssociationSet>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(dbMyOnlineShoppingModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(dbMyOnlineShoppingModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
   </EntityContainer>
   <ComplexType Name="GetBySearch_Result">
     <Property Type="Int32" Name="ProductId" Nullable="false" />
@@ -53,6 +87,16 @@
     <Property Type="Boolean" Name="IsActive1" Nullable="true" />
     <Property Type="Boolean" Name="IsDelete1" Nullable="true" />
   </ComplexType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
   <EntityType Name="Tbl_Cart">
     <Key>
       <PropertyRef Name="CartId" />
@@ -97,14 +141,26 @@
     <Property Name="UserImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Tbl_Members" Relationship="dbMyOnlineShoppingModel.FK__Tbl_Membe__Membe__7C4F7684" FromRole="Tbl_MemberInfo" ToRole="Tbl_Members" />
   </EntityType>
-  <EntityType Name="Tbl_MemberRole">
+  <EntityType Name="Tbl_Members">
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="Int32" Nullable="false" />
-    <Property Name="MemberId" Type="Int32" />
-    <Property Name="RoleId" Type="Int32" />
-    <NavigationProperty Name="Tbl_Roles" Relationship="dbMyOnlineShoppingModel.FK__Tbl_Membe__RoleI__22AA2996" FromRole="Tbl_MemberRole" ToRole="Tbl_Roles" />
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="Username" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="ConfirmPass" Type="Int32" />
+    <Property Name="EmailId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+    <Property Name="roleId" Type="Int32" />
+    <NavigationProperty Name="Tbl_MemberInfo" Relationship="dbMyOnlineShoppingModel.FK__Tbl_Membe__Membe__7C4F7684" FromRole="Tbl_Members" ToRole="Tbl_MemberInfo" />
+    <NavigationProperty Name="Tbl_ShippingDetails" Relationship="dbMyOnlineShoppingModel.FK__Tbl_Shipp__Membe__1CF15040" FromRole="Tbl_Members" ToRole="Tbl_ShippingDetails" />
+    <NavigationProperty Name="Tbl_Members1" Relationship="dbMyOnlineShoppingModel.FK_Tbl_Members_Tbl_Members" FromRole="Tbl_Members" ToRole="Tbl_Members1" />
+    <NavigationProperty Name="Tbl_Members2" Relationship="dbMyOnlineShoppingModel.FK_Tbl_Members_Tbl_Members" FromRole="Tbl_Members1" ToRole="Tbl_Members" />
+    <NavigationProperty Name="Tbl_Roles" Relationship="dbMyOnlineShoppingModel.FK_Tbl_Members_Tbl_Roles" FromRole="Tbl_Members" ToRole="Tbl_Roles" />
   </EntityType>
   <EntityType Name="Tbl_Product">
     <Key>
@@ -128,9 +184,9 @@
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="RoleName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="Tbl_MemberRole" Relationship="dbMyOnlineShoppingModel.FK__Tbl_Membe__RoleI__22AA2996" FromRole="Tbl_Roles" ToRole="Tbl_MemberRole" />
+    <NavigationProperty Name="Tbl_Members" Relationship="dbMyOnlineShoppingModel.FK_Tbl_Members_Tbl_Roles" FromRole="Tbl_Roles" ToRole="Tbl_Members" />
   </EntityType>
   <EntityType Name="Tbl_ShippingDetails">
     <Key>
@@ -160,7 +216,7 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="Int32" Nullable="false" />
-    <Property Name="EmailId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Username" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
     <Property Name="RoleName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
   </EntityType>
   <Association Name="FK__Tbl_Cart__Produc__25869641">
@@ -187,32 +243,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Tbl_Membe__RoleI__22AA2996">
-    <End Type="dbMyOnlineShoppingModel.Tbl_Roles" Role="Tbl_Roles" Multiplicity="0..1" />
-    <End Type="dbMyOnlineShoppingModel.Tbl_MemberRole" Role="Tbl_MemberRole" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Tbl_Roles">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Tbl_MemberRole">
-        <PropertyRef Name="RoleId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <EntityType Name="Tbl_Members">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="EmailId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-    <Property Name="Password" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-    <Property Name="IsActive" Type="Boolean" />
-    <Property Name="IsDelete" Type="Boolean" />
-    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
-    <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="Tbl_MemberInfo" Relationship="dbMyOnlineShoppingModel.FK__Tbl_Membe__Membe__7C4F7684" FromRole="Tbl_Members" ToRole="Tbl_MemberInfo" />
-    <NavigationProperty Name="Tbl_ShippingDetails" Relationship="dbMyOnlineShoppingModel.FK__Tbl_Shipp__Membe__1CF15040" FromRole="Tbl_Members" ToRole="Tbl_ShippingDetails" />
-  </EntityType>
   <Association Name="FK__Tbl_Membe__Membe__7C4F7684">
     <End Type="dbMyOnlineShoppingModel.Tbl_Members" Role="Tbl_Members" Multiplicity="0..1" />
     <End Type="dbMyOnlineShoppingModel.Tbl_MemberInfo" Role="Tbl_MemberInfo" Multiplicity="*" />
@@ -237,4 +267,39 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Tbl_Members_Tbl_Members">
+    <End Type="dbMyOnlineShoppingModel.Tbl_Members" Role="Tbl_Members" Multiplicity="1" />
+    <End Type="dbMyOnlineShoppingModel.Tbl_Members" Role="Tbl_Members1" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Members">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Tbl_Members1">
+        <PropertyRef Name="id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tbl_Members_Tbl_Roles">
+    <End Type="dbMyOnlineShoppingModel.Tbl_Roles" Role="Tbl_Roles" Multiplicity="0..1" />
+    <End Type="dbMyOnlineShoppingModel.Tbl_Members" Role="Tbl_Members" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Roles">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Tbl_Members">
+        <PropertyRef Name="roleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
 </Schema>

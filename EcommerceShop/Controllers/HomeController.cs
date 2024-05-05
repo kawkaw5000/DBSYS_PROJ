@@ -1,6 +1,7 @@
 ﻿using EcommerceShop.DAL;
 using EcommerceShop.Models.Home;
 using EcommerceShop.Repository;
+using EcommerceShop.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,7 +50,7 @@ namespace EcommerceShop.Controllers
         [HttpPost]
         public ActionResult Login(Tbl_Members u)
         {
-            var user = _userRepo.Table.FirstOrDefault(m => m.EmailId == u.EmailId && m.Password == u.Password);
+            var user = _userRepo.Table.FirstOrDefault(m => m.Username == u.Username && m.Password == u.Password);
             if (user != null)
             {
                 if (user.IsDelete == true)
@@ -141,6 +142,7 @@ namespace EcommerceShop.Controllers
             return RedirectToAction("Index");
         }
 
+       
         [Authorize(Roles = "User, Manager")]
         public ActionResult RemoveFromCart(int productId)
         {
@@ -170,11 +172,11 @@ namespace EcommerceShop.Controllers
 
 
             var mem = _unitOfWork.GetRepositoryInstance<Tbl_Members>().GetAllRecords()
-                      .Where(m => m.EmailId == loggedInUserId);
+                      .Where(m => m.Username == loggedInUserId);
 
             foreach (var item in mem)
             {
-                list.Add(new SelectListItem { Value = item.id.ToString(), Text = item.EmailId });
+                list.Add(new SelectListItem { Value = item.id.ToString(), Text = item.Username });
             }
 
             return list;
@@ -190,7 +192,7 @@ namespace EcommerceShop.Controllers
 
             Tbl_Members member = _unitOfWork.GetRepositoryInstance<Tbl_Members>()
                                   .GetAllRecords()
-                                  .FirstOrDefault(m => m.EmailId == loggedInUserId && m.id == memberId);
+                                  .FirstOrDefault(m => m.Username == loggedInUserId && m.id == memberId);
 
             if (member == null)
             {
@@ -216,28 +218,46 @@ namespace EcommerceShop.Controllers
             var mem = _unitOfWork.GetRepositoryInstance<Tbl_Members>().GetAllRecords();
             foreach (var item in mem)
             {
-                list.Add(new SelectListItem { Value = item.id.ToString(), Text = item.EmailId });
+                list.Add(new SelectListItem { Value = item.id.ToString(), Text = item.Username });
             }
             return list;
         }
 
-        public ActionResult Create()
+        [AllowAnonymous]
+        public ActionResult SignUp()
         {
+            if (User.Identity.IsAuthenticated)
+                return RedirectToAction("UserIndex");
+
+            ViewBag.Roles = new SelectList(ctx.Tbl_Roles, "id", "RoleName");
+
             return View();
         }
+
+        [AllowAnonymous]
         [HttpPost]
-        public ActionResult Create(Tbl_Members u)
+        public ActionResult SignUp(Tbl_Members ua, String ConfirmPass, int roleId)
         {
-            u.IsActive = false;
-            u.IsDelete = true;
-            u.CreatedOn = DateTime.Now;
-            _userRepo.Create(u);
+            if (!ua.Password.Equals(ConfirmPass))
+            {
+                ModelState.AddModelError(String.Empty, "Password not match");
+                ViewBag.Roles = new SelectList(ctx.Tbl_Roles, "id", "RoleName");
+                return View(ua);
+            }
 
+        
+            ua.roleId = roleId;
 
-            int memberId = u.id; 
+            if (_userManager.SignUp(ua, ref ErrorMessage) != Contracts.ErrorCode.Success)
+            {
+                ModelState.AddModelError(String.Empty, ErrorMessage);
+                ViewBag.Roles = new SelectList(ctx.Tbl_Roles, "id", "RoleName");
+                return View(ua);
+            }
 
-
-            return RedirectToAction("AddUserInfo", new { memberId = memberId });
+            int memberId = ua.id;      
+            TempData["username"] = ua.Username;
+            return RedirectToAction("AddUserInfo", new { memberId = memberId }); ;
         }
 
         public ActionResult MemberInfo()

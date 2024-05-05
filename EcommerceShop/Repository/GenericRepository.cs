@@ -131,5 +131,10 @@ namespace EcommerceShop.Repository
         {
             return _dbSet.ToList();
         }
+
+        public IEnumerable<Tbl_Entity> GetMemberRole()
+        {
+            return _dbSet.ToList();
+        }
     }
 }

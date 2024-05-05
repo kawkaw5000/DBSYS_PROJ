@@ -10,12 +10,10 @@
 namespace EcommerceShop.DAL
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class vw_UserRole
+    public partial class sp_helpdiagramdefinition_Result
     {
-        public int id { get; set; }
-        public string Username { get; set; }
-        public string RoleName { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }
