@@ -22,6 +22,8 @@ namespace EcommerceShop.Controllers
         {
 
             HomeIndexViewModel model = new HomeIndexViewModel();
+            ViewBag.CartItemCount = GetCartItemCount();
+            ViewBag.TestMessage = $"Cart item count: {ViewBag.CartItemCount}";
             return View(model.CreateModel(search, 4, page));
         }
 
@@ -30,7 +32,25 @@ namespace EcommerceShop.Controllers
         {
 
             HomeIndexViewModel model = new HomeIndexViewModel();
+            ViewBag.CartItemCount = GetCartItemCount();
+            ViewBag.TestMessage = $"Cart item count: {ViewBag.CartItemCount}";
             return View(model.CreateModel(search, 4, page));
+        }
+
+        private int GetCartItemCount()
+        {
+            string loggedInUserEmail = User.Identity.Name;
+            var user = _unitOfWork.GetRepositoryInstance<Tbl_Members>().GetAllRecords()
+                           .FirstOrDefault(m => m.Username == loggedInUserEmail);
+
+            if (user != null)
+            {
+                var cartItemCount = _unitOfWork.GetRepositoryInstance<Tbl_Cart>()
+                                        .GetAllRecords()
+                                        .Count(c => c.MemberId == user.id);
+                return cartItemCount;
+            }
+            return 0;
         }
 
         [AllowAnonymous]
@@ -72,99 +92,165 @@ namespace EcommerceShop.Controllers
 
             return View();
         }
-
-       
-
         [Authorize(Roles = "User, Manager")]
-        public ActionResult DecreaseQty(int productId)
+        public ActionResult ViewCart()
         {
-            if (Session["cart"] != null)
+            string loggedInUserEmail = User.Identity.Name;
+            var user = _unitOfWork.GetRepositoryInstance<Tbl_Members>().GetAllRecords()
+                                .FirstOrDefault(m => m.Username == loggedInUserEmail);
+
+            if (user != null)
             {
-                List<Item> cart = (List<Item>)Session["cart"];
-                var product = ctx.Tbl_Product.Find(productId);
-                foreach (var item in cart)
-                {
-                    if (item.Product.ProductId == productId)
-                    {
-                        int prevQty = item.Quantity;
-                        if (prevQty > 0)
-                        {
-                            cart.Remove(item);
-                            cart.Add(new Item()
-                            {
-                                Product = product,
-                                Quantity = prevQty - 1
-                            });
-                        }
-                        break;
-                    }
-                }
-                Session["cart"] = cart;
+                var cartItems = _unitOfWork.GetRepositoryInstance<Tbl_Cart>()
+                                    .GetAllRecords()
+                                    .Where(c => c.MemberId == user.id)
+                                    .ToList();
+
+                return View(cartItems);
             }
-            return Redirect("Index");
+
+            ModelState.AddModelError("", "User not found or not authenticated.");
+            return RedirectToAction("Index");
         }
 
         [Authorize(Roles = "User, Manager")]
-        public ActionResult AddToCart(int productId, string url)
+        [HttpPost]
+        public ActionResult AddToCart(int productId)
         {
-            if (Session["cart"] == null)
-            {
-                List<Item> cart = new List<Item>();
-                var product = ctx.Tbl_Product.Find(productId);
-                cart.Add(new Item()
-                {
-                    Product = product,
-                    Quantity = 1
-                });
-                Session["cart"] = cart;
-            }
-            else
-            {
-                List<Item> cart = (List<Item>)Session["cart"];
-                var product = ctx.Tbl_Product.Find(productId);
-                var existingItem = cart.FirstOrDefault(item => item.Product.ProductId == productId);
+            string loggedInUserEmail = User.Identity.Name;
+            var user = _unitOfWork.GetRepositoryInstance<Tbl_Members>().GetAllRecords()
+                            .FirstOrDefault(m => m.Username == loggedInUserEmail);
 
-                if (existingItem != null)
+            if (user != null)
+            {
+                var existingCartItems = _unitOfWork.GetRepositoryInstance<Tbl_Cart>()
+                                            .GetAllRecords()
+                                            .Where(c => c.MemberId == user.id)
+                                            .ToList();
+
+                var existingCartItem = existingCartItems.FirstOrDefault(c => c.ProductId == productId);
+
+                if (existingCartItem != null)
                 {
-                    existingItem.Quantity++;
+                    existingCartItem.Quantity++;
+                    _unitOfWork.GetRepositoryInstance<Tbl_Cart>().Update(existingCartItem);
                 }
                 else
                 {
-                    cart.Add(new Item()
+                    _unitOfWork.GetRepositoryInstance<Tbl_Cart>().Add(new Tbl_Cart
                     {
-                        Product = product,
+                        ProductId = productId,
+                        MemberId = user.id,
+                        CartStatusId = 1,
                         Quantity = 1
                     });
                 }
 
-                Session["cart"] = cart;
+                _unitOfWork.SaveChanges();
+
+        
+                int cartItemCount = existingCartItems.Sum(c => c.Quantity ?? 0);
+
+           
+                ViewBag.CartItemCount = cartItemCount;
+
+                return RedirectToAction("Index");
             }
+
+            ModelState.AddModelError("", "User not found or not authenticated.");
             return RedirectToAction("Index");
         }
 
-       
         [Authorize(Roles = "User, Manager")]
-        public ActionResult RemoveFromCart(int productId)
+        [HttpPost]
+        public ActionResult IncreaseProductQuant(int productId)
         {
-            List<Item> cart = (List<Item>)Session["cart"];
-            List<Item> itemsToRemove = new List<Item>();
+            string loggedInUserEmail = User.Identity.Name;
+            var user = _unitOfWork.GetRepositoryInstance<Tbl_Members>().GetAllRecords()
+                            .FirstOrDefault(m => m.Username == loggedInUserEmail);
 
-            foreach (var item in cart)
+            if (user != null)
             {
-                if (item.Product.ProductId == productId)
+                var existingCartItem = _unitOfWork.GetRepositoryInstance<Tbl_Cart>()
+                                        .GetAllRecords()
+                                        .FirstOrDefault(c => c.MemberId == user.id && c.ProductId == productId);
+
+                if (existingCartItem != null)
                 {
-                    itemsToRemove.Add(item);
+                    existingCartItem.Quantity++;
+                    _unitOfWork.GetRepositoryInstance<Tbl_Cart>().Update(existingCartItem);
+                    _unitOfWork.SaveChanges();
                 }
+                return RedirectToAction("ViewCart");
             }
 
-            foreach (var itemToRemove in itemsToRemove)
-            {
-                cart.Remove(itemToRemove);
-            }
-
-            Session["cart"] = cart;
-            return Redirect("Index");
+            ModelState.AddModelError("", "User not found or not authenticated.");
+            return RedirectToAction("Index");
         }
+
+        [Authorize(Roles = "User, Manager")]
+        [HttpPost]
+        public ActionResult DecreaseProductQuant(int productId)
+        {
+            string loggedInUserEmail = User.Identity.Name;
+            var user = _unitOfWork.GetRepositoryInstance<Tbl_Members>().GetAllRecords()
+                            .FirstOrDefault(m => m.Username == loggedInUserEmail);
+
+            if (user != null)
+            {
+                var existingCartItem = _unitOfWork.GetRepositoryInstance<Tbl_Cart>()
+                                        .GetAllRecords()
+                                        .FirstOrDefault(c => c.MemberId == user.id && c.ProductId == productId);
+
+                if (existingCartItem != null)
+                {
+                    if (existingCartItem.Quantity > 1)
+                    {
+                        existingCartItem.Quantity--;
+                        _unitOfWork.GetRepositoryInstance<Tbl_Cart>().Update(existingCartItem);
+                        _unitOfWork.SaveChanges();
+                    }
+                    else
+                    {
+                        // If quantity is already 1, remove the item from the cart
+                        _unitOfWork.GetRepositoryInstance<Tbl_Cart>().Remove(existingCartItem);
+                        _unitOfWork.SaveChanges();
+                    }
+                }
+                return RedirectToAction("ViewCart");
+            }
+
+            ModelState.AddModelError("", "User not found or not authenticated.");
+            return RedirectToAction("Index");
+        }
+
+        [Authorize(Roles = "User, Manager")]
+        [HttpPost]
+        public ActionResult RemoveProduct(int productId)
+        {
+            string loggedInUserEmail = User.Identity.Name;
+            var user = _unitOfWork.GetRepositoryInstance<Tbl_Members>().GetAllRecords()
+                            .FirstOrDefault(m => m.Username == loggedInUserEmail);
+
+            if (user != null)
+            {
+                var existingCartItem = _unitOfWork.GetRepositoryInstance<Tbl_Cart>()
+                                        .GetAllRecords()
+                                        .FirstOrDefault(c => c.MemberId == user.id && c.ProductId == productId);
+
+                if (existingCartItem != null)
+                {
+                    _unitOfWork.GetRepositoryInstance<Tbl_Cart>().Remove(existingCartItem);
+                    _unitOfWork.SaveChanges();
+                }
+                return RedirectToAction("ViewCart");
+            }
+
+            ModelState.AddModelError("", "User not found or not authenticated.");
+            return RedirectToAction("Index");
+        }
+
+
 
         public List<SelectListItem> GetMembers(string loggedInUserId)
         {

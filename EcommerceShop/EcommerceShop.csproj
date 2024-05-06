@@ -381,6 +381,7 @@
     <Content Include="Views\Home\AddUserInfo.cshtml" />
     <Content Include="Views\Home\AddUserInfod.cshtml" />
     <Content Include="Views\Home\SignUp.cshtml" />
+    <Content Include="Views\Home\ViewCart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AdminStyle\css\" />

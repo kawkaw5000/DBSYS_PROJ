@@ -40,27 +40,17 @@
 
                     }
                 </ul>
-                    @if (User.Identity.IsAuthenticated)
-                    {
+                   
                         <ul class="nav navbar-nav navbar-right">
+                             @if (User.Identity.IsAuthenticated)
+                            {             
                             <li class="dropdown">
-                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">Cart @((Session["cart"] != null ? ((List<Item>)Session["cart"]).Count : 0)) <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    @if (Session["cart"] != null)
-                {
-                    foreach (var item in (List<Item>)Session["cart"])
-                    {
-                                            <li>
-                                                <a href="@Url.Action("RemoveFromCart", "Home", new { productId = item.Product.ProductId })">@item.Product.ProductName (@item.Quantity) <i class="fa fa-times"></i></a>
-                                            </li>
-                                        }
-                                    }
-                                    <li class="divider"></li>
-                                    <li><a href="#">Checkout</a></li>
-                                </ul>
+                                <a href="@Url.Action("ViewCart", "Home")">Cart<span class="badge">@ViewBag.CartItemCount</span><b></b></a>
+                                
                             </li>
+                             }
+
                         </ul>
-                    }
 
 </div>
         </div>
