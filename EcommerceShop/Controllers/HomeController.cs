@@ -2,6 +2,7 @@
 using EcommerceShop.Models.Home;
 using EcommerceShop.Repository;
 using EcommerceShop.Utils;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,16 +17,46 @@ namespace EcommerceShop.Controllers
         dbMyOnlineShoppingEntities ctx = new dbMyOnlineShoppingEntities();
         public GenericUnitOfWork _unitOfWork = new GenericUnitOfWork();
 
-
         [AllowAnonymous]
         public ActionResult Index(string search, int? page)
         {
+            var products = _unitOfWork.GetRepositoryInstance<Tbl_Product>().GetProduct().Where(p => !(p.IsDelete ?? false));
 
-            HomeIndexViewModel model = new HomeIndexViewModel();
+
+            // Optionally, apply additional filtering based on search criteria
+            if (!string.IsNullOrEmpty(search))
+            {
+                products = products.Where(p => p.ProductName.Contains(search));
+            }
+
+            // Paginate the products
+            int pageSize = 4; // Adjust the page size as needed
+            int pageNumber = (page ?? 1);
+            var paginatedProducts = products.ToPagedList(pageNumber, pageSize);
+
+            // Construct the view model
+            var viewModel = new HomeIndexViewModel
+            {
+                ListOfProducts = paginatedProducts,
+                // Other properties of the view model
+            };
+
             ViewBag.CartItemCount = GetCartItemCount();
             ViewBag.TestMessage = $"Cart item count: {ViewBag.CartItemCount}";
-            return View(model.CreateModel(search, 4, page));
+
+            return View(viewModel);
         }
+
+
+        //[AllowAnonymous]
+        //public ActionResult Index(string search, int? page)
+        //{
+
+        //    HomeIndexViewModel model = new HomeIndexViewModel();
+        //    ViewBag.CartItemCount = GetCartItemCount();
+        //    ViewBag.TestMessage = $"Cart item count: {ViewBag.CartItemCount}";
+        //    return View(model.CreateModel(search, 4, page));
+        //}
 
         [Authorize(Roles = "User, Manager")]
         public ActionResult UserIndex(string search, int? page)
@@ -350,12 +381,12 @@ namespace EcommerceShop.Controllers
         {
             return View(_unitOfWork.GetRepositoryInstance<Tbl_MemberInfo>().GetMemberInfo());
         }
-
         public ActionResult AddUserInfo(int memberId)
         {
             ViewBag.MemberList = GetMembersInfo();
-
+       
             ViewBag.MemberId = memberId;
+  
             return View();
         }
         [HttpPost]
@@ -363,9 +394,7 @@ namespace EcommerceShop.Controllers
         {
 
             int memberId = Convert.ToInt32(Request.Form["MemberId"]);
-
             tbl.MemberId = memberId;
-
             string pic = null;
             if (file != null)
             {

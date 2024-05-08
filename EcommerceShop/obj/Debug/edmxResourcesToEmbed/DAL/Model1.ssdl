@@ -48,8 +48,8 @@
     <Property Name="Street" Type="varchar" MaxLength="500" />
     <Property Name="City" Type="varchar" MaxLength="500" />
     <Property Name="ZipCode" Type="varchar" MaxLength="500" />
-    <Property Name="StoreId" Type="int" />
     <Property Name="UserImage" Type="varchar(max)" />
+    <Property Name="StoreId" Type="int" />
   </EntityType>
   <EntityType Name="Tbl_Members">
     <Key>
@@ -113,6 +113,20 @@
     <Property Name="SlideTitle" Type="varchar" MaxLength="500" />
     <Property Name="SlideImage" Type="varchar(max)" />
   </EntityType>
+  <EntityType Name="Tbl_Store">
+    <Key>
+      <PropertyRef Name="StoreId" />
+    </Key>
+    <Property Name="StoreId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="storeGuid" Type="varchar(max)" />
+    <Property Name="storeName" Type="varchar" MaxLength="500" />
+    <Property Name="phone" Type="varchar" MaxLength="500" />
+    <Property Name="email" Type="varchar" MaxLength="500" />
+    <Property Name="street" Type="varchar" MaxLength="500" />
+    <Property Name="city" Type="varchar" MaxLength="500" />
+    <Property Name="states" Type="varchar" MaxLength="500" />
+    <Property Name="zip_code" Type="varchar" MaxLength="50" />
+  </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_UserRole">
@@ -168,6 +182,30 @@ warning 6002: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have 
       </Principal>
       <Dependent Role="Tbl_ShippingDetails">
         <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StoreId">
+    <End Role="Tbl_Store" Type="Self.Tbl_Store" Multiplicity="0..1" />
+    <End Role="Tbl_MemberInfo" Type="Self.Tbl_MemberInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Store">
+        <PropertyRef Name="StoreId" />
+      </Principal>
+      <Dependent Role="Tbl_MemberInfo">
+        <PropertyRef Name="StoreId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tbl_MemberInfo_Tbl_MemberInfo">
+    <End Role="Tbl_MemberInfo" Type="Self.Tbl_MemberInfo" Multiplicity="1" />
+    <End Role="Tbl_MemberInfo1" Type="Self.Tbl_MemberInfo" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_MemberInfo">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Tbl_MemberInfo1">
+        <PropertyRef Name="id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -240,6 +278,7 @@ warning 6002: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have 
     <EntitySet Name="Tbl_Roles" EntityType="Self.Tbl_Roles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tbl_ShippingDetails" EntityType="Self.Tbl_ShippingDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tbl_SlideImage" EntityType="Self.Tbl_SlideImage" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_Store" EntityType="Self.Tbl_Store" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="vw_UserRole" EntityType="Self.vw_UserRole" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [vw_UserRole].[id] AS [id], 
@@ -262,6 +301,14 @@ warning 6002: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have 
     <AssociationSet Name="FK__Tbl_Shipp__Membe__1CF15040" Association="Self.FK__Tbl_Shipp__Membe__1CF15040">
       <End Role="Tbl_Members" EntitySet="Tbl_Members" />
       <End Role="Tbl_ShippingDetails" EntitySet="Tbl_ShippingDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StoreId" Association="Self.FK_StoreId">
+      <End Role="Tbl_Store" EntitySet="Tbl_Store" />
+      <End Role="Tbl_MemberInfo" EntitySet="Tbl_MemberInfo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tbl_MemberInfo_Tbl_MemberInfo" Association="Self.FK_Tbl_MemberInfo_Tbl_MemberInfo">
+      <End Role="Tbl_MemberInfo" EntitySet="Tbl_MemberInfo" />
+      <End Role="Tbl_MemberInfo1" EntitySet="Tbl_MemberInfo" />
     </AssociationSet>
     <AssociationSet Name="FK_Tbl_Members_Tbl_Members" Association="Self.FK_Tbl_Members_Tbl_Members">
       <End Role="Tbl_Members" EntitySet="Tbl_Members" />

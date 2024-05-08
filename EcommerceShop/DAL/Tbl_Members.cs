@@ -17,8 +17,8 @@ namespace EcommerceShop.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Tbl_Members()
         {
-            this.Tbl_MemberInfo = new HashSet<Tbl_MemberInfo>();
             this.Tbl_ShippingDetails = new HashSet<Tbl_ShippingDetails>();
+            this.Tbl_MemberInfo = new HashSet<Tbl_MemberInfo>();
         }
     
         public int id { get; set; }
@@ -34,11 +34,11 @@ namespace EcommerceShop.DAL
         public Nullable<int> roleId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tbl_MemberInfo> Tbl_MemberInfo { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tbl_ShippingDetails> Tbl_ShippingDetails { get; set; }
         public virtual Tbl_Members Tbl_Members1 { get; set; }
         public virtual Tbl_Members Tbl_Members2 { get; set; }
         public virtual Tbl_Roles Tbl_Roles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Tbl_MemberInfo> Tbl_MemberInfo { get; set; }
     }
 }

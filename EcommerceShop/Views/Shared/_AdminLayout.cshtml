@@ -100,18 +100,28 @@
             <li class="nav-item">
                 <a class="nav-link" href="tables.html">
                     <i class="fas fa-fw fa-table"></i>
+                    <span>Your Products</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="tables.html">
+                    <i class="fas fa-fw fa-table"></i>
                     <span>Orders</span>
                 </a>
             </li>
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("Admin"))
+                {
             <li class="nav-item">
                 <a class="nav-link" href="~/Admin/Members">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Members</span>
                 </a>
             </li>
-
-
-
+                }
+            }
         </ul>
         <div id="content-wrapper">
 

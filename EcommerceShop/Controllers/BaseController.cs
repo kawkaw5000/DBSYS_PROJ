@@ -24,8 +24,6 @@ namespace EcommerceShop.Controllers
             _db = new dbMyOnlineShoppingEntities();
             _userRepo = new BaseRepository<Tbl_Members>();
             _userManager = new UserManager();
-        }
-
-       
+        }     
     }
 }

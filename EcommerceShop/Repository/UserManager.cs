@@ -57,12 +57,10 @@ namespace EcommerceShop.Repository
 
         public Contracts.ErrorCode SignUp(Tbl_Members ua, ref String errMsg)
         {
-            ua.userId = Utilities.gUid;
-            ua.IsActive = false; 
-            ua.IsDelete = true;
+            ua.userId = Utilities.gUid;        
             ua.CreatedOn = DateTime.Now;
-           
-
+            ua.IsDelete = true;     
+            
             if (GetUserByUsername(ua.Username) != null)
             {
                 errMsg = "Username Already Exist";
@@ -79,9 +77,6 @@ namespace EcommerceShop.Repository
             {
                 return Contracts.ErrorCode.Error;
             }
-
-            // use the generated code for OTP "ua.code"
-            // send email or sms here...........
 
             return Contracts.ErrorCode.Success;
         }

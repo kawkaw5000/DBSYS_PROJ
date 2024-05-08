@@ -32,6 +32,7 @@
                         <li><a>Welcome, @User.Identity.Name!</a></li>
                         <li><a href="~/Home/Logout">Logout</a></li>
                         <li><a href="@Url.Action("AccountInfo", "Home")">My Profile</a></li>
+                   
                     }
                     else
                     {
@@ -63,11 +64,17 @@
                 <div class="nav-menus">
 
                     <ul class="nav nav-pills">
-                        <li class="active"><a href="@Url.Action("Index", "Home")"">Home</a></li>
+                        <li class="active"><a href="@Url.Action("Index", "Home")">Home</a></li>
                         <li><a href="#">More Info</a></li>
                         <li ><a href="#">About</a></li>
-                        
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("Manager"))
+                        {
+                        <li><a href="@Url.Action("Dashboard", "Admin")">Your Store</a></li>
+                        }
 
+                    }
                     </ul>
                 </div>
             </div>

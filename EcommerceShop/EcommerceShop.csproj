@@ -264,6 +264,9 @@
     <Compile Include="DAL\Tbl_SlideImage.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Tbl_Store.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\vw_UserRole.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

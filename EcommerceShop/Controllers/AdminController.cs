@@ -11,13 +11,10 @@ using System.Web.Security;
 
 namespace EcommerceShop.Controllers
 {
-    [Authorize(Roles = "Manager")]
+    [Authorize(Roles = "Manager, Admin")]
     public class AdminController : BaseController
-    {
-        // GET: Admin
-
+    { 
         public GenericUnitOfWork _unitOfWork = new GenericUnitOfWork();
-
 
         public List<SelectListItem> GetMembers()
         {
@@ -33,14 +30,14 @@ namespace EcommerceShop.Controllers
         public List<SelectListItem> GetCategory()
         {
             List<SelectListItem> list = new List<SelectListItem>();
-            var cat = _unitOfWork.GetRepositoryInstance<Tbl_Category>().GetAllRecords();
+            var cat = _unitOfWork.GetRepositoryInstance<Tbl_Category>().GetAllRecords().Where(c => !c.IsDelete.GetValueOrDefault());
             foreach (var item in cat)
             {
                 list.Add(new SelectListItem { Value = item.CategoryId.ToString(), Text = item.CategoryName });
             }
             return list;
         }
-
+     
         public ActionResult Dashboard()
         {
             return View();
@@ -53,6 +50,7 @@ namespace EcommerceShop.Controllers
         }
 
         // ADMIN USER EDIT------------------------------------------------------------
+        [Authorize(Roles = "Admin")]
         public ActionResult Members()
         {
             return View(_unitOfWork.GetRepositoryInstance<Tbl_Members>().GetMembers());
@@ -63,17 +61,34 @@ namespace EcommerceShop.Controllers
             ViewBag.MembersList = GetMembers();
             return View(_unitOfWork.GetRepositoryInstance<Tbl_Members>().GetFirstorDefault(memberId));
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
-        public ActionResult MembersEdit(Tbl_Members tbl)
+        public ActionResult MembersEdit(Tbl_Members model)
         {
+            if (ModelState.IsValid)
+            {
+                var member = _unitOfWork.GetRepositoryInstance<Tbl_Members>().GetFirstorDefault(model.id);
+                if (member != null)
+                {
+                    member.IsActive = model.IsActive;
+                    member.IsDelete = model.IsDelete;
+                    // Update other properties if needed
 
-            tbl.ModifiedOn = DateTime.Now;
-            _unitOfWork.GetRepositoryInstance<Tbl_Members>().Update(tbl);
-            return RedirectToAction("Members");
+                    _unitOfWork.GetRepositoryInstance<Tbl_Members>().Update(member);
+                    _unitOfWork.SaveChanges();
+                    return RedirectToAction("Members"); // Redirect to appropriate action
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Member not found.");
+                }
+            }
+
+            // If ModelState is not valid, return to the same view with validation errors
+            ViewBag.MembersList = GetMembers();
+            return View(model);
         }
-
-
-
+    
         // ADMIN CATEGORIES EDIT------------------------------------------------------------
         public ActionResult Categories()
         {
@@ -85,29 +100,16 @@ namespace EcommerceShop.Controllers
         {
             ViewBag.CategoryList = GetCategory();
             return View();
-            ////return UpdateCategory(0);
+  
         }
         [HttpPost]
         public ActionResult AddCategory(Tbl_Category tbl)
         {
             _unitOfWork.GetRepositoryInstance<Tbl_Category>().Add(tbl);
             return RedirectToAction("Categories");
-            ////return UpdateCategory(0);
+        
         }
 
-        //public ActionResult UpdateCategory(int categoryId)
-        //{
-        //    CategoryDetail cd;
-        //    if(categoryId != null)
-        //    {
-        //        cd = JsonConvert.DeserializeObject<CategoryDetail>(JsonConvert.SerializeObject(_unitOfWork.GetRepositoryInstance<Tbl_Category>().GetFirstorDefault(categoryId)));
-        //    }
-        //    else
-        //    {
-        //        cd = new CategoryDetail();
-        //    }
-        //    return View("UpdateCategory", cd);
-        //}
         public ActionResult CategoryEdit(int catId)
         {
             return View(_unitOfWork.GetRepositoryInstance<Tbl_Category>().GetFirstorDefault(catId));
@@ -121,10 +123,17 @@ namespace EcommerceShop.Controllers
 
 
         // ADMIN PRODUCT EDIT------------------------------------------------------------
-        public ActionResult Product()
-        {
-            return View(_unitOfWork.GetRepositoryInstance<Tbl_Product>().GetProduct());
-        }
+
+            public ActionResult Product()
+{
+            // Filter out products with IsDelete = true
+            var products = _unitOfWork.GetRepositoryInstance<Tbl_Product>().GetProduct().Where(p => !(p.IsDelete ?? false));
+            return View(products);
+}
+        //public ActionResult Product()
+        //{
+        //    return View(_unitOfWork.GetRepositoryInstance<Tbl_Product>().GetProduct());
+        //}
         public ActionResult ProductEdit(int productId)
         {
             ViewBag.CategoryList = GetCategory();

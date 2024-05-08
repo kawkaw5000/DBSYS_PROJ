@@ -20,17 +20,35 @@ namespace EcommerceShop.Models.Home
         public List<Tbl_Cart> CartItems { get; internal set; }
         public IPagedList<Tbl_Product> ListOfProducts { get; set; }
 
-        public HomeIndexViewModel CreateModel(string search,int pageSize, int? page)
+        public HomeIndexViewModel CreateModel(string search, int pageSize, int? page)
         {
             SqlParameter[] param = new SqlParameter[]
             {
-                new SqlParameter("@search", search??(object)DBNull.Value)
+        new SqlParameter("@search", search ?? (object)DBNull.Value)
             };
-            IPagedList<Tbl_Product> data = context.Database.SqlQuery<Tbl_Product>("GetBySearch @search", param).ToList().ToPagedList(page ?? 1, pageSize);
+
+            IEnumerable<Tbl_Product> data = context.Database.SqlQuery<Tbl_Product>("GetBySearch @search", param);
+
+            IPagedList<Tbl_Product> pagedData = data.ToPagedList(page ?? 1, pageSize);
+
             return new HomeIndexViewModel
             {
-                ListOfProducts = data
-            }; 
+                ListOfProducts = pagedData
+            };
         }
+
+
+        //public HomeIndexViewModel CreateModel(string search,int pageSize, int? page)
+        //{
+        //    SqlParameter[] param = new SqlParameter[]
+        //    {
+        //        new SqlParameter("@search", search??(object)DBNull.Value)
+        //    };
+        //    IPagedList<Tbl_Product> data = context.Database.SqlQuery<Tbl_Product>("GetBySearch @search", param).ToList().ToPagedList(page ?? 1, pageSize);
+        //    return new HomeIndexViewModel
+        //    {
+        //        ListOfProducts = data
+        //    }; 
+        //}
     }
 }

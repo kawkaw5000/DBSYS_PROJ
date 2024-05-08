@@ -52,7 +52,7 @@
         <div class="form-group">
             <label class="col-md-2 control-label">User type</label>
             <div class="col-md-3">
-                @Html.DropDownListFor(model => model.roleId, (IEnumerable<SelectListItem>)ViewBag.Roles, "Select Role", new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.roleId, (IEnumerable<SelectListItem>)ViewBag.Roles, "Select Role", new { @class = "form-control", @required = true })
                 @Html.ValidationMessageFor(model => model.roleId, "", new { @class = "text-danger" })
             </div>
         </div>
