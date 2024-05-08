@@ -121,19 +121,46 @@ namespace EcommerceShop.Controllers
             return RedirectToAction("Categories");
         }
 
+        private int GetCurrentMemberId()
+        {    
+            string loggedInUserEmail = User.Identity.Name;       
+            var user = _unitOfWork.GetRepositoryInstance<Tbl_Members>()
+                                  .GetAllRecords()
+                                  .FirstOrDefault(m => m.Username == loggedInUserEmail);
+
+            if (user != null)
+            {
+         
+                return user.id;
+            }
+            else
+            {  
+                throw new InvalidOperationException("Member not found for the logged-in user.");
+            }
+        }
 
         // ADMIN PRODUCT EDIT------------------------------------------------------------
+        public ActionResult Product()
+        { 
+            int memberId = GetCurrentMemberId(); 
 
-            public ActionResult Product()
-{
-            // Filter out products with IsDelete = true
-            var products = _unitOfWork.GetRepositoryInstance<Tbl_Product>().GetProduct().Where(p => !(p.IsDelete ?? false));
+            var products = _unitOfWork.GetRepositoryInstance<Tbl_Product>()
+                .GetProduct()
+                .Where(p => !(p.IsDelete ?? false) && p.MemberId == memberId);
+
             return View(products);
-}
+        }
+        //            public ActionResult Product()
+        //{
+        //            // Filter out products with IsDelete = true
+        //            var products = _unitOfWork.GetRepositoryInstance<Tbl_Product>().GetProduct().Where(p => !(p.IsDelete ?? false));
+        //            return View(products);
+        //}
         //public ActionResult Product()
         //{
         //    return View(_unitOfWork.GetRepositoryInstance<Tbl_Product>().GetProduct());
         //}
+
         public ActionResult ProductEdit(int productId)
         {
             ViewBag.CategoryList = GetCategory();
@@ -162,6 +189,9 @@ namespace EcommerceShop.Controllers
         [HttpPost]
         public ActionResult ProductAdd(Tbl_Product tbl, HttpPostedFileBase file)
         {
+            // Retrieve the currently logged-in user's ID
+            int memberId = GetCurrentMemberId(); // Implement this method to get the member ID
+
             string pic = null;
             if (file != null)
             {
@@ -169,11 +199,29 @@ namespace EcommerceShop.Controllers
                 string path = System.IO.Path.Combine(Server.MapPath("~/ProductImg/"), pic);
                 file.SaveAs(path);
             }
+
             tbl.ProductImage = pic;
             tbl.CreatedDate = DateTime.Now;
+            tbl.MemberId = memberId; // Associate the product with the current user
             _unitOfWork.GetRepositoryInstance<Tbl_Product>().Add(tbl);
             return RedirectToAction("Product");
         }
+
+        //[HttpPost]
+        //public ActionResult ProductAdd(Tbl_Product tbl, HttpPostedFileBase file)
+        //{
+        //    string pic = null;
+        //    if (file != null)
+        //    {
+        //        pic = System.IO.Path.GetFileName(file.FileName);
+        //        string path = System.IO.Path.Combine(Server.MapPath("~/ProductImg/"), pic);
+        //        file.SaveAs(path);
+        //    }
+        //    tbl.ProductImage = pic;
+        //    tbl.CreatedDate = DateTime.Now;
+        //    _unitOfWork.GetRepositoryInstance<Tbl_Product>().Add(tbl);
+        //    return RedirectToAction("Product");
+        //}
 
     }
 }

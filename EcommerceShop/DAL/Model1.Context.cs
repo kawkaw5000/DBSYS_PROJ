@@ -35,10 +35,10 @@ namespace EcommerceShop.DAL
         public virtual DbSet<Tbl_SlideImage> Tbl_SlideImage { get; set; }
         public virtual DbSet<vw_UserRole> vw_UserRole { get; set; }
         public virtual DbSet<Tbl_Roles> Tbl_Roles { get; set; }
-        public virtual DbSet<Tbl_Product> Tbl_Product { get; set; }
-        public virtual DbSet<Tbl_MemberInfo> Tbl_MemberInfo { get; set; }
         public virtual DbSet<Tbl_Store> Tbl_Store { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<Tbl_MemberInfo> Tbl_MemberInfo { get; set; }
+        public virtual DbSet<Tbl_Product> Tbl_Product { get; set; }
     
         public virtual ObjectResult<GetBySearch_Result> GetBySearch(string search)
         {

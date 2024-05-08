@@ -50,6 +50,7 @@
     <Property Name="ZipCode" Type="varchar" MaxLength="500" />
     <Property Name="UserImage" Type="varchar(max)" />
     <Property Name="StoreId" Type="int" />
+    <Property Name="userId" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="Tbl_Members">
     <Key>
@@ -83,6 +84,8 @@
     <Property Name="Quantity" Type="int" />
     <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
     <Property Name="Description" Type="varchar" MaxLength="500" />
+    <Property Name="StoreId" Type="int" />
+    <Property Name="MemberId" Type="int" />
   </EntityType>
   <EntityType Name="Tbl_Roles">
     <Key>
@@ -182,6 +185,30 @@ warning 6002: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have 
       </Principal>
       <Dependent Role="Tbl_ShippingDetails">
         <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MemberId">
+    <End Role="Tbl_Members" Type="Self.Tbl_Members" Multiplicity="0..1" />
+    <End Role="Tbl_Product" Type="Self.Tbl_Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Members">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Tbl_Product">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProdStoreId">
+    <End Role="Tbl_Store" Type="Self.Tbl_Store" Multiplicity="0..1" />
+    <End Role="Tbl_Product" Type="Self.Tbl_Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Store">
+        <PropertyRef Name="StoreId" />
+      </Principal>
+      <Dependent Role="Tbl_Product">
+        <PropertyRef Name="StoreId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -301,6 +328,14 @@ warning 6002: The table/view 'dbMyOnlineShopping.dbo.vw_UserRole' does not have 
     <AssociationSet Name="FK__Tbl_Shipp__Membe__1CF15040" Association="Self.FK__Tbl_Shipp__Membe__1CF15040">
       <End Role="Tbl_Members" EntitySet="Tbl_Members" />
       <End Role="Tbl_ShippingDetails" EntitySet="Tbl_ShippingDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MemberId" Association="Self.FK_MemberId">
+      <End Role="Tbl_Members" EntitySet="Tbl_Members" />
+      <End Role="Tbl_Product" EntitySet="Tbl_Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProdStoreId" Association="Self.FK_ProdStoreId">
+      <End Role="Tbl_Store" EntitySet="Tbl_Store" />
+      <End Role="Tbl_Product" EntitySet="Tbl_Product" />
     </AssociationSet>
     <AssociationSet Name="FK_StoreId" Association="Self.FK_StoreId">
       <End Role="Tbl_Store" EntitySet="Tbl_Store" />

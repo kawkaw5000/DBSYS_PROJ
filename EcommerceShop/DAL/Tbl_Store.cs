@@ -18,6 +18,7 @@ namespace EcommerceShop.DAL
         public Tbl_Store()
         {
             this.Tbl_MemberInfo = new HashSet<Tbl_MemberInfo>();
+            this.Tbl_Product = new HashSet<Tbl_Product>();
         }
     
         public int StoreId { get; set; }
@@ -32,5 +33,7 @@ namespace EcommerceShop.DAL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tbl_MemberInfo> Tbl_MemberInfo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Tbl_Product> Tbl_Product { get; set; }
     }
 }

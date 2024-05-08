@@ -32,9 +32,13 @@ namespace EcommerceShop.DAL
         public Nullable<int> Quantity { get; set; }
         public Nullable<decimal> Price { get; set; }
         public string Description { get; set; }
+        public Nullable<int> StoreId { get; set; }
+        public Nullable<int> MemberId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tbl_Cart> Tbl_Cart { get; set; }
         public virtual Tbl_Category Tbl_Category { get; set; }
+        public virtual Tbl_Members Tbl_Members { get; set; }
+        public virtual Tbl_Store Tbl_Store { get; set; }
     }
 }
